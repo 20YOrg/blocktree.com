@@ -1,6 +1,14 @@
-# Welcome to Remix!
+# Blocktree Landing Page
 
-- 📖 [Remix docs](https://remix.run/docs)
+- [Remix Docs](https://remix.run/docs)
+
+## Description
+A landing page for Blocktree, a revolutionary blockchain scaling solution powering interstellar DApps and space economies, built with Remix. Inspired by discussions on X with @billqian_uae and @IbaiBasabe, Blocktree uses a hierarchical "blocktree" structure to scale blockchains for AI-driven economies, edge decentralized applications (DApps), and interstellar finance.
+
+## Use Cases
+- AI Economies: Enable AI agents to trade and invest in DeFi using edge DApps on the Blocktree network.
+- Interstellar Finance: Power financial systems for space exploration and trade between planets.
+- Massive DeFi Scaling: Support global decentralized finance with near-infinite capacity.
 
 ## Development
 

@@ -1,5 +1,25 @@
-node_modules
+# Node.js and npm
+node_modules/
+*.log
 
-/.cache
-/build
+# Environment files
 .env
+.env.local
+.env.production
+.env.development
+
+# Build and distribution directories
+build/
+dist/
+dist-ssr/
+dist-client/
+.cache/
+coverage/
+
+# TypeScript
+*.tsbuildinfo
+
+# IDE and Editor files
+.vscode/
+.idea/
+.DS_Store
