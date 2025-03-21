@@ -14,14 +14,17 @@ export default function Index() {
       <header className="fixed w-full bg-white dark:bg-gray-800 shadow-md z-10">
         <nav className="max-w-4xl mx-auto px-4 py-2 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            {/* Logo Placeholder - Replace with your image */}
-            <div className="w-10 h-10 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center">
-              <span className="text-gray-800 dark:text-gray-200 font-bold">BT</span>
-            </div>
-            {/* Project Name */}
-            <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100 font-poppins">
-              Blocktree
-            </h1>
+            {/* Logo - Black in light mode, White in dark mode */}
+            <img
+              src="/blocktree-logo-black.png"
+              alt="Blocktree Logo"
+              className="w-32 dark:hidden"
+            />
+            <img
+              src="/blocktree-logo-white.png"
+              alt="Blocktree Logo"
+              className="w-32 hidden dark:block"
+            />
           </div>
         </nav>
       </header>
