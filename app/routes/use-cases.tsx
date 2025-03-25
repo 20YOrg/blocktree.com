@@ -19,52 +19,14 @@ export default function UseCases() {
                         Blocktree Use Cases
                     </h1>
                     <p className="mt-4 text-lg text-gray-600 dark:text-gray-300 font-inter">
-                        See how Blocktree is transforming industries with its scalable blockchain solutions for AI, edge computing, and interstellar applications.
+                        See how Blocktree is transforming the future with its scalable blockchain solutions for AI, edge computing, and interstellar economies.
                     </p>
                 </section>
 
                 {/* Use Cases List */}
                 <section className="mb-16">
                     <div className="space-y-12">
-                        {/* Use Case 1: AI Economies */}
-                        <div className="flex flex-col md:flex-row items-center gap-6">
-                            <div className="w-full md:w-1/3">
-                                <div className="w-full h-48 bg-gray-300 dark:bg-gray-700 rounded-lg flex items-center justify-center">
-                                    <span className="text-gray-600 dark:text-gray-400 font-inter">
-                                        [Placeholder: AI Economy Illustration]
-                                    </span>
-                                </div>
-                            </div>
-                            <div className="flex-1">
-                                <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 font-poppins mb-2">
-                                    AI Economies
-                                </h2>
-                                <p className="text-gray-700 dark:text-gray-300 font-inter">
-                                    Blocktree enables autonomous AI agents to participate in decentralized finance (DeFi) ecosystems, performing tasks like trading, investing, and arbitrage without human intervention. By leveraging Blocktree’s scalable architecture, AI-driven economies can operate at unprecedented scale, supporting machine-to-machine transactions in a trustless environment. This use case is ideal for creating self-sustaining financial systems where AI agents manage assets, optimize strategies, and drive economic growth.
-                                </p>
-                            </div>
-                        </div>
-
-                        {/* Use Case 2: Edge DApps */}
-                        <div className="flex flex-col md:flex-row items-center gap-6">
-                            <div className="w-full md:w-1/3">
-                                <div className="w-full h-48 bg-gray-300 dark:bg-gray-700 rounded-lg flex items-center justify-center">
-                                    <span className="text-gray-600 dark:text-gray-400 font-inter">
-                                        [Placeholder: Edge DApp Illustration]
-                                    </span>
-                                </div>
-                            </div>
-                            <div className="flex-1">
-                                <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 font-poppins mb-2">
-                                    Edge DApps
-                                </h2>
-                                <p className="text-gray-700 dark:text-gray-300 font-inter">
-                                    Blocktree powers low-latency decentralized applications (DApps) at the network edge, making it perfect for IoT, gaming, and real-time data processing. With its spatially scalable blocktree structure, Blocktree ensures that edge DApps can handle massive transaction volumes with minimal delays, providing a seamless user experience. This use case is critical for industries requiring real-time interactions, such as smart cities, autonomous vehicles, and immersive gaming platforms.
-                                </p>
-                            </div>
-                        </div>
-
-                        {/* Use Case 3: Space Economies */}
+                        {/* Use Case 1: Space Economies */}
                         <div className="flex flex-col md:flex-row items-center gap-6">
                             <div className="w-full md:w-1/3">
                                 <div className="w-full h-48 bg-gray-300 dark:bg-gray-700 rounded-lg flex items-center justify-center">
@@ -82,6 +44,42 @@ export default function UseCases() {
                                 </p>
                             </div>
                         </div>
+                        {/* Use Case 2: AI Economies */}
+                        <div className="flex flex-col md:flex-row items-center gap-6">
+                            <div className="w-full md:w-1/3">
+                                <div className="w-full h-48 bg-gray-300 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                                    <span className="text-gray-600 dark:text-gray-400 font-inter">
+                                        [Placeholder: AI Economy Illustration]
+                                    </span>
+                                </div>
+                            </div>
+                            <div className="flex-1">
+                                <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 font-poppins mb-2">
+                                    AI Economies
+                                </h2>
+                                <p className="text-gray-700 dark:text-gray-300 font-inter">
+                                    Blocktree enables autonomous AI agents to participate in decentralized finance (DeFi) ecosystems, performing tasks like trading, investing, and arbitrage without human intervention. By leveraging Blocktree’s scalable architecture, AI-driven economies can operate at unprecedented scale, supporting machine-to-machine transactions in a trustless environment. This use case is ideal for creating self-sustaining financial systems where AI agents manage assets, optimize strategies, and drive economic growth.
+                                </p>
+                            </div>
+                        </div>
+                        {/* Use Case 3: Edge DApps */}
+                        <div className="flex flex-col md:flex-row items-center gap-6">
+                            <div className="w-full md:w-1/3">
+                                <div className="w-full h-48 bg-gray-300 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                                    <span className="text-gray-600 dark:text-gray-400 font-inter">
+                                        [Placeholder: Edge DApp Illustration]
+                                    </span>
+                                </div>
+                            </div>
+                            <div className="flex-1">
+                                <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 font-poppins mb-2">
+                                    Edge DApps
+                                </h2>
+                                <p className="text-gray-700 dark:text-gray-300 font-inter">
+                                    Blocktree powers low-latency decentralized applications (DApps) at the network edge, making it perfect for IoT, gaming, and real-time data processing. With its spatially scalable blocktree structure, Blocktree ensures that edge DApps can handle massive transaction volumes with minimal delays, providing a seamless user experience. This use case is critical for industries requiring real-time interactions, such as smart cities, autonomous vehicles, and immersive gaming platforms.
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </section>
 
@@ -91,7 +89,7 @@ export default function UseCases() {
                         Ready to Explore Blocktree’s Potential?
                     </h2>
                     <p className="text-gray-700 dark:text-gray-300 font-inter mb-4">
-                        Contact us to learn how Blocktree can transform your industry with its cutting-edge blockchain solutions.
+                        Contact us to learn how Blocktree can enable your future with its cutting-edge blockchain solutions.
                     </p>
                     <Link
                         to="/contact"

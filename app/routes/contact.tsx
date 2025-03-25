@@ -134,7 +134,7 @@ export default function Contact() {
                         </div>
                         <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md text-center">
                             <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 font-poppins mb-2">
-                                Twitter
+                                X
                             </h3>
                             <p className="text-gray-700 dark:text-gray-300 font-inter">
                                 <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
@@ -144,7 +144,7 @@ export default function Contact() {
                         </div>
                         <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md text-center">
                             <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 font-poppins mb-2">
-                                Discord
+                                Telegram
                             </h3>
                             <p className="text-gray-700 dark:text-gray-300 font-inter">
                                 <a href="https://discord.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
