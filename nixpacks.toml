@@ -11,6 +11,7 @@ cmds = ["npm run build"]
 [variables]
 PORT = "3000"
 NODE_ENV = "production"
+HOST = "0.0.0.0"        # Ensure binding to all interfaces
 
 [start]
-cmd = "node -e 'console.log(\"Starting server on port \" + process.env.PORT); import(\"./build/server/index.js\").then(module => module.default())'"
+cmd = "npm start"
