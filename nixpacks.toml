@@ -13,4 +13,4 @@ PORT = "3000"
 NODE_ENV = "production"
 
 [start]
-cmd = "node -e 'console.log(\"Starting server on port \" + process.env.PORT); require(\"./build/server/index.js\")'"
+cmd = "node -e 'console.log(\"Starting server on port \" + process.env.PORT); import(\"./build/server/index.js\").then(module => module.default())'"
