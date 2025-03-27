@@ -135,9 +135,7 @@ export default function Contact() {
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md text-center">
-                            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 font-poppins mb-2">
-                                Email
-                            </h3>
+                            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 font-poppins mb-2">Email</h3>
                             <p className="text-gray-700 dark:text-gray-300 font-inter">
                                 <a href="mailto:contact@blocktree.com" className="hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
                                     contact@blocktree.com
@@ -145,22 +143,18 @@ export default function Contact() {
                             </p>
                         </div>
                         <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md text-center">
-                            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 font-poppins mb-2">
-                                X
-                            </h3>
+                            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 font-poppins mb-2">X</h3>
                             <p className="text-gray-700 dark:text-gray-300 font-inter">
-                                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
-                                    @BlocktreeHQ
+                                <a href="https://x.com/IbaiBasabe" target="_blank" rel="noopener noreferrer" className="hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
+                                    @IbaiBasabe
                                 </a>
                             </p>
                         </div>
                         <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md text-center">
-                            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 font-poppins mb-2">
-                                Telegram
-                            </h3>
+                            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 font-poppins mb-2">Telegram</h3>
                             <p className="text-gray-700 dark:text-gray-300 font-inter">
-                                <a href="https://discord.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
-                                    Join our community
+                                <a href="https://t.me/dribai" target="_blank" rel="noopener noreferrer" className="hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
+                                    @dribai
                                 </a>
                             </p>
                         </div>
