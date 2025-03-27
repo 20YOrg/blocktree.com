@@ -61,53 +61,36 @@ export default function About() {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         {/* Team Member 1 */}
                         <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md text-center">
-                            <div className="w-24 h-24 bg-gray-300 dark:bg-gray-700 rounded-full mx-auto mb-4 flex items-center justify-center">
-                                <span className="text-gray-600 dark:text-gray-400 font-inter">
-                                    [Photo]
-                                </span>
-                            </div>
+                            <img
+                                src="/ibai.jpg"
+                                alt="Ibai Basabe"
+                                className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
+                            />
                             <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 font-poppins mb-1">
-                                Alex Carter
+                                Ibai Basabe
                             </h3>
                             <p className="text-gray-600 dark:text-gray-400 font-inter mb-2">
-                                Co-Founder & CEO
+                                Co-Founder & Developer
                             </p>
                             <p className="text-gray-700 dark:text-gray-300 font-inter">
-                                Alex is a blockchain pioneer with over a decade of experience in decentralized systems, leading Blocktree’s mission to scale blockchain for the stars.
+                                Ibai Basabe is a blockchain pioneer with over a decade of experience in decentralized systems, leading Blocktree’s mission to scale blockchain for the stars.
                             </p>
                         </div>
                         {/* Team Member 2 */}
                         <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md text-center">
-                            <div className="w-24 h-24 bg-gray-300 dark:bg-gray-700 rounded-full mx-auto mb-4 flex items-center justify-center">
-                                <span className="text-gray-600 dark:text-gray-400 font-inter">
-                                    [Photo]
-                                </span>
-                            </div>
+                            <img
+                                src="/rebekah.jpg"
+                                alt="Rebekah Yu"
+                                className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
+                            />
                             <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 font-poppins mb-1">
-                                Dr. Maya Singh
+                                Rebekah Yu
                             </h3>
                             <p className="text-gray-600 dark:text-gray-400 font-inter mb-2">
-                                Chief Technology Officer
+                                Co-Founder & Designer
                             </p>
                             <p className="text-gray-700 dark:text-gray-300 font-inter">
-                                Maya holds a PhD in AI and distributed systems, driving Blocktree’s integration of AI with blockchain for autonomous economies.
-                            </p>
-                        </div>
-                        {/* Team Member 3 */}
-                        <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md text-center">
-                            <div className="w-24 h-24 bg-gray-300 dark:bg-gray-700 rounded-full mx-auto mb-4 flex items-center justify-center">
-                                <span className="text-gray-600 dark:text-gray-400 font-inter">
-                                    [Photo]
-                                </span>
-                            </div>
-                            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 font-poppins mb-1">
-                                Liam Zhang
-                            </h3>
-                            <p className="text-gray-600 dark:text-gray-400 font-inter mb-2">
-                                Head of Space Initiatives
-                            </p>
-                            <p className="text-gray-700 dark:text-gray-300 font-inter">
-                                Liam brings expertise in space technology, ensuring Blocktree’s solutions are ready for interstellar applications.
+                                Rebekah is a financial technologist with a passion for design and innovation. She’s responsible for Blocktree’s visual identity and user experience.
                             </p>
                         </div>
                     </div>
