@@ -113,7 +113,7 @@ export default function Layout({ children }) {
                 <div className="max-w-4xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
                     <div className="mb-4 md:mb-0">
                         <p className="text-gray-700 dark:text-gray-300 font-inter">
-                            © 2025 Blocktree. All rights reserved.
+                            © 2025 Blocktree Foundation. All rights reserved.
                         </p>
                     </div>
                     <div className="flex gap-4">
@@ -131,13 +131,10 @@ export default function Layout({ children }) {
                         </a>
                     </div>
                     <div className="flex gap-4 mt-4 md:mt-0">
-                        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
-                            Twitter
+                        <a href="https://x.com/IbaiBasabe" target="_blank" rel="noopener noreferrer" className="text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
+                            X
                         </a>
-                        <a href="https://discord.com" target="_blank" rel="noopener noreferrer" className="text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
-                            Discord
-                        </a>
-                        <a href="https://telegram.org" target="_blank" rel="noopener noreferrer" className="text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
+                        <a href="https://t.me/dribai" target="_blank" rel="noopener noreferrer" className="text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
                             Telegram
                         </a>
                     </div>
