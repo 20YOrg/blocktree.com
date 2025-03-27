@@ -1,14 +1,12 @@
 import type { MetaFunction, ActionFunction } from "@remix-run/node";
-import { json } from "@remix-run/node"; // Added json import
-import { useActionData, Form } from "@remix-run/react"; // Added Form import
+import { json } from "@remix-run/node";
+import { useActionData, Form } from "@remix-run/react";
 import { useState } from "react";
 import Layout from "~/components/Layout";
-const TelegramBot = require("node-telegram-bot-api");
 
-// Telegram setup
+// Telegram setup (moved inside action to use dynamic import)
 const botToken = "7520070934:AAHIQdFfeFpeiTR11FHkR7UBgZON1Jqm3GM";
 const chatId = "1638674184";
-const bot = new TelegramBot(botToken);
 
 export const meta: MetaFunction = () => {
     return [
@@ -35,7 +33,9 @@ export const action: ActionFunction = async ({ request }) => {
     // Log submission
     console.log("Form submission:", { name, email, message });
 
-    // Send Telegram notification
+    // Dynamic import for TelegramBot (ESM compatible)
+    const TelegramBot = (await import("node-telegram-bot-api")).default;
+    const bot = new TelegramBot(botToken);
     const telegramMessage = `New Contact Form Submission:\nName: ${name}\nEmail: ${email}\nMessage: ${message}`;
     await bot.sendMessage(chatId, telegramMessage);
 
