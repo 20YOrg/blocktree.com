@@ -1,18 +1,18 @@
-import { Link } from "@remix-run/react";
-import { ReactNode } from "react";
+import { useState } from "react";
+import { Link, Outlet } from "@remix-run/react";
 
-interface LayoutProps {
-    children: ReactNode;
-}
+export default function Layout({ children }) {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-export default function Layout({ children }: LayoutProps) {
+    const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
     return (
         <div className="flex min-h-screen flex-col bg-gray-50 dark:bg-gray-900">
             {/* Top Menu (Header) */}
             <header className="fixed w-full bg-white dark:bg-gray-800 shadow-md z-10">
                 <nav className="max-w-4xl mx-auto px-4 py-6 flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                        {/* Logo - Black in light mode, White in dark mode */}
+                        {/* Logo */}
                         <Link to="/">
                             <img
                                 src="/blocktree-logo-black.png"
@@ -26,28 +26,87 @@ export default function Layout({ children }: LayoutProps) {
                             />
                         </Link>
                     </div>
-                    {/* Navigation Links */}
-                    <div className="flex items-center gap-8">
-                        <Link to="/about" className="text-gray-800 dark:text-gray-100 font-inter font-semibold text-sm hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
+                    {/* Desktop Nav */}
+                    <div className="hidden md:flex items-center gap-8">
+                        <Link
+                            to="/about"
+                            className="text-gray-800 dark:text-gray-100 font-inter font-semibold text-sm hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
+                        >
                             About
                         </Link>
-                        <Link to="/features" className="text-gray-800 dark:text-gray-100 font-inter font-semibold text-sm hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
+                        <Link
+                            to="/features"
+                            className="text-gray-800 dark:text-gray-100 font-inter font-semibold text-sm hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
+                        >
                             Features
                         </Link>
-                        <Link to="/use-cases" className="text-gray-800 dark:text-gray-100 font-inter font-semibold text-sm hover:text-blue-400 transition-colors">
+                        <Link
+                            to="/use-cases"
+                            className="text-gray-800 dark:text-gray-100 font-inter font-semibold text-sm hover:text-blue-400 transition-colors"
+                        >
                             Use Cases
                         </Link>
-                        <Link to="/contact" className="text-gray-800 dark:text-gray-100 font-inter font-semibold text-sm hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
+                        <Link
+                            to="/contact"
+                            className="text-gray-800 dark:text-gray-100 font-inter font-semibold text-sm hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
+                        >
                             Contact
                         </Link>
                     </div>
+                    {/* Mobile Menu Button */}
+                    <button
+                        className="md:hidden text-gray-800 dark:text-gray-100 focus:outline-none"
+                        onClick={toggleMenu}
+                    >
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
+                            />
+                        </svg>
+                    </button>
                 </nav>
+                {/* Mobile Menu */}
+                {isMenuOpen && (
+                    <div className="md:hidden bg-white dark:bg-gray-800 shadow-md">
+                        <div className="flex flex-col px-4 py-4 space-y-4">
+                            <Link
+                                to="/about"
+                                className="text-gray-800 dark:text-gray-100 font-inter font-semibold text-sm hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
+                                onClick={toggleMenu}
+                            >
+                                About
+                            </Link>
+                            <Link
+                                to="/features"
+                                className="text-gray-800 dark:text-gray-100 font-inter font-semibold text-sm hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
+                                onClick={toggleMenu}
+                            >
+                                Features
+                            </Link>
+                            <Link
+                                to="/use-cases"
+                                className="text-gray-800 dark:text-gray-100 font-inter font-semibold text-sm hover:text-blue-400 transition-colors"
+                                onClick={toggleMenu}
+                            >
+                                Use Cases
+                            </Link>
+                            <Link
+                                to="/contact"
+                                className="text-gray-800 dark:text-gray-100 font-inter font-semibold text-sm hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
+                                onClick={toggleMenu}
+                            >
+                                Contact
+                            </Link>
+                        </div>
+                    </div>
+                )}
             </header>
 
             {/* Main Content */}
-            <main className="flex-1 w-full">
-                {children}
-            </main>
+            <main className="flex-1 w-full pt-[80px]">{children || <Outlet />}</main>
 
             {/* Footer */}
             <footer className="bg-gray-200 dark:bg-gray-800 py-6">
