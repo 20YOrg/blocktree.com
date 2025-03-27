@@ -4,7 +4,7 @@ import Layout from "~/components/Layout";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "Blocktree - Powering Interstellar DApps and Space Economies" },
+    { title: "Blocktree - Interstellar DApps and Space Economies" },
     { name: "description", content: "Explore Blocktree, a blockchain scaling solution for AI economies, edge DApps, and interstellar finance, inspired by @billqian_uae and @IbaiBasabe." },
   ];
 };
@@ -14,11 +14,11 @@ export default function Index() {
     <Layout>
       <div className="w-full max-w-4xl mx-auto px-4 py-12 mt-[4rem]">
         {/* Hero Section */}
-        <section className="text-center mb-16">
-          <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-100 font-poppins">
-            Blocktree - Powering Interstellar DApps and Space Economies
+        <section className="text-center mb-36 mt-24">
+          <h1 className="text-5xl font-bold text-gray-800 dark:text-gray-100 leading-[60px] font-poppins">
+            Interstellar DApps and Space Economies
           </h1>
-          <p className="mt-4 text-lg text-gray-600 dark:text-gray-300 font-inter">
+          <p className="mt-8 text-lg text-gray-600 dark:text-gray-300 text-[16px] leading-[24px] font-inter">
             Revolutionizing blockchain for the future of AI, edge computing, and beyond the stars.
           </p>
         </section>

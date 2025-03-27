@@ -10,7 +10,7 @@ export default function Layout({ children }: LayoutProps) {
         <div className="flex min-h-screen flex-col bg-gray-50 dark:bg-gray-900">
             {/* Top Menu (Header) */}
             <header className="fixed w-full bg-white dark:bg-gray-800 shadow-md z-10">
-                <nav className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+                <nav className="max-w-4xl mx-auto px-4 py-6 flex items-center justify-between">
                     <div className="flex items-center gap-2">
                         {/* Logo - Black in light mode, White in dark mode */}
                         <Link to="/">
@@ -27,17 +27,17 @@ export default function Layout({ children }: LayoutProps) {
                         </Link>
                     </div>
                     {/* Navigation Links */}
-                    <div className="flex items-center gap-12">
-                        <Link to="/about" className="text-gray-800 dark:text-gray-100 font-inter font-medium hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
+                    <div className="flex items-center gap-8">
+                        <Link to="/about" className="text-gray-800 dark:text-gray-100 font-inter font-semibold text-sm hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
                             About
                         </Link>
-                        <Link to="/features" className="text-gray-800 dark:text-gray-100 font-inter font-medium hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
+                        <Link to="/features" className="text-gray-800 dark:text-gray-100 font-inter font-semibold text-sm hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
                             Features
                         </Link>
-                        <Link to="/use-cases" className="text-gray-800 dark:text-gray-100 font-inter font-medium hover:text-blue-400 transition-colors">
+                        <Link to="/use-cases" className="text-gray-800 dark:text-gray-100 font-inter font-semibold text-sm hover:text-blue-400 transition-colors">
                             Use Cases
                         </Link>
-                        <Link to="/contact" className="text-gray-800 dark:text-gray-100 font-inter font-medium hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
+                        <Link to="/contact" className="text-gray-800 dark:text-gray-100 font-inter font-semibold text-sm hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
                             Contact
                         </Link>
                     </div>
