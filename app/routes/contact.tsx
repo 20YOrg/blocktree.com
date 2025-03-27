@@ -1,7 +1,14 @@
 import type { MetaFunction, ActionFunction } from "@remix-run/node";
-import { useActionData } from "@remix-run/react";
+import { json } from "@remix-run/node"; // Added json import
+import { useActionData, Form } from "@remix-run/react"; // Added Form import
 import { useState } from "react";
 import Layout from "~/components/Layout";
+const TelegramBot = require("node-telegram-bot-api");
+
+// Telegram setup
+const botToken = "7520070934:AAHIQdFfeFpeiTR11FHkR7UBgZON1Jqm3GM";
+const chatId = "1638674184";
+const bot = new TelegramBot(botToken);
 
 export const meta: MetaFunction = () => {
     return [
@@ -18,16 +25,21 @@ export const action: ActionFunction = async ({ request }) => {
 
     // Basic server-side validation
     if (!name || !email || !message) {
-        return { error: "All fields are required." };
+        return json({ error: "All fields are required." });
     }
 
     if (!email.toString().includes("@")) {
-        return { error: "Please provide a valid email address." };
+        return json({ error: "Please provide a valid email address." });
     }
 
-    // Placeholder for actual form submission (e.g., send email or save to database)
+    // Log submission
     console.log("Form submission:", { name, email, message });
-    return { success: "Thank you for your message! We’ll get back to you soon." };
+
+    // Send Telegram notification
+    const telegramMessage = `New Contact Form Submission:\nName: ${name}\nEmail: ${email}\nMessage: ${message}`;
+    await bot.sendMessage(chatId, telegramMessage);
+
+    return json({ success: "Thank you for your message! We’ll get back to you soon." });
 };
 
 export default function Contact() {
@@ -63,7 +75,7 @@ export default function Contact() {
                         {actionData?.success && (
                             <p className="text-green-500 font-inter mb-4">{actionData.success}</p>
                         )}
-                        <form method="post" className="space-y-4">
+                        <Form method="post" className="space-y-4">
                             <div>
                                 <label htmlFor="name" className="block text-gray-700 dark:text-gray-300 font-inter mb-1">
                                     Name
@@ -112,7 +124,7 @@ export default function Contact() {
                             >
                                 Send Message
                             </button>
-                        </form>
+                        </Form>
                     </div>
                 </section>
 
