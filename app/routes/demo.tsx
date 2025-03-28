@@ -2,9 +2,9 @@ import { useLoaderData } from "@remix-run/react";
 import Layout from "~/components/Layout";
 
 export async function loader() {
-    const res = await fetch("http://localhost:3001/chain"); // Temp local URL
+    const res = await fetch("http://77.37.54.98:3001/chain");
     const data = await res.json();
-    return Response.json(data); // Use Response.json() instead of json()
+    return Response.json(data);
 }
 
 export default function Demo() {
