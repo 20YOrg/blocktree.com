@@ -109,10 +109,10 @@ export default function Demo() {
                 >
                     <Tree
                         data={treeData}
-                        orientation="vertical"
-                        translate={{ x: 388, y: 70 }} // Center in ~976px (1024 - 48px padding)
-                        nodeSize={{ x: 180, y: 100 }}
-                        separation={{ siblings: 1.2, nonSiblings: 1.5 }}
+                        orientation="horizontal"
+                        translate={{ x: 50, y: 200 }} // Center vertically in 500px
+                        nodeSize={{ x: 100, y: 80 }} // Narrower vertically
+                        separation={{ siblings: 0.8, nonSiblings: 1 }} // Tighter sibling gap
                         initialDepth={2}
                         zoom={0.7}
                         styles={{
@@ -128,7 +128,7 @@ export default function Demo() {
                                         fill: "#333",
                                         fontFamily: "Inter",
                                         fontSize: "14px",
-                                        dy: "1.5em",
+                                        dx: "1em",
                                     },
                                 },
                                 leafNode: {
@@ -142,7 +142,7 @@ export default function Demo() {
                                         fill: "#333",
                                         fontFamily: "Inter",
                                         fontSize: "14px",
-                                        dy: "1.5em",
+                                        dx: "1em",
                                     },
                                 },
                             },
