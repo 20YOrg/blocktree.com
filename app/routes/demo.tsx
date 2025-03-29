@@ -38,11 +38,11 @@ export default function Demo() {
 
     const handleMine = async () => {
         try {
-            const res = await fetch("http://77.37.54.98:3001/chain/mine", {
+            const res = await fetch("https://demo.blocktree.com/chain/mine", {  // Use your SSL URL
                 method: "POST",
             });
             const data = await res.json();
-            console.log("Mining response:", res.status, res.statusText, data);
+            console.log("Mining response:", res.status, data);
             if (res.ok) {
                 window.location.reload();
             } else {
