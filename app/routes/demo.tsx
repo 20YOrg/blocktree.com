@@ -36,6 +36,23 @@ export default function Demo() {
         ],
     };
 
+    const handleMine = async () => {
+        try {
+            const res = await fetch("http://77.37.54.98:3001/chain/mine", {
+                method: "POST",
+            });
+            if (res.ok) {
+                window.location.reload(); // Refresh to update tree
+            } else {
+                console.error("Mining failed:", res.statusText);
+                alert("Mining failed! Check the console for details.");
+            }
+        } catch (error) {
+            console.error("Error during mining:", error);
+            alert("Something went wrong while mining!");
+        }
+    };
+
     console.log("Rendering Demo, isMounted:", isMounted);
     console.log("treeData:", JSON.stringify(treeData));
 
@@ -110,48 +127,33 @@ export default function Demo() {
                     <Tree
                         data={treeData}
                         orientation="horizontal"
-                        translate={{ x: 50, y: 200 }} // Center vertically in 500px
-                        nodeSize={{ x: 100, y: 80 }} // Narrower vertically
-                        separation={{ siblings: 0.8, nonSiblings: 1 }} // Tighter sibling gap
+                        translate={{ x: 50, y: 200 }}
+                        nodeSize={{ x: 100, y: 80 }}
+                        separation={{ siblings: 0.8, nonSiblings: 1 }}
                         initialDepth={2}
                         zoom={0.7}
                         styles={{
                             nodes: {
                                 node: {
-                                    circle: {
-                                        fill: "#4b5e40",
-                                        stroke: "#2f3d27",
-                                        strokeWidth: 2,
-                                        r: 10,
-                                    },
-                                    attributes: {
-                                        fill: "#333",
-                                        fontFamily: "Inter",
-                                        fontSize: "14px",
-                                        dx: "1em",
-                                    },
+                                    circle: { fill: "#4b5e40", stroke: "#2f3d27", strokeWidth: 2, r: 10 },
+                                    attributes: { fill: "#333", fontFamily: "Inter", fontSize: "14px", dx: "1em" },
                                 },
                                 leafNode: {
-                                    circle: {
-                                        fill: "#8b5cf6",
-                                        stroke: "#5b21b6",
-                                        strokeWidth: 2,
-                                        r: 10,
-                                    },
-                                    attributes: {
-                                        fill: "#333",
-                                        fontFamily: "Inter",
-                                        fontSize: "14px",
-                                        dx: "1em",
-                                    },
+                                    circle: { fill: "#8b5cf6", stroke: "#5b21b6", strokeWidth: 2, r: 10 },
+                                    attributes: { fill: "#333", fontFamily: "Inter", fontSize: "14px", dx: "1em" },
                                 },
                             },
-                            links: {
-                                stroke: "#6b7280",
-                                strokeWidth: 2,
-                            },
+                            links: { stroke: "#6b7280", strokeWidth: 2 },
                         }}
                     />
+                </div>
+                <div className="mt-4 text-center">
+                    <button
+                        onClick={handleMine}
+                        className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition-colors"
+                    >
+                        Mine
+                    </button>
                 </div>
                 <div className="mt-8 space-y-8 bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-md">
                     <div>
