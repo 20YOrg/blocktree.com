@@ -41,10 +41,12 @@ export default function Demo() {
             const res = await fetch("http://77.37.54.98:3001/chain/mine", {
                 method: "POST",
             });
+            const data = await res.json();
+            console.log("Mining response:", res.status, res.statusText, data);
             if (res.ok) {
-                window.location.reload(); // Refresh to update tree
+                window.location.reload();
             } else {
-                console.error("Mining failed:", res.statusText);
+                console.error("Mining failed:", res.status, res.statusText, data);
                 alert("Mining failed! Check the console for details.");
             }
         } catch (error) {
