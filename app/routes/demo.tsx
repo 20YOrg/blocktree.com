@@ -15,8 +15,9 @@ export default function Demo() {
     const [miningStatus, setMiningStatus] = useState("idle"); // "idle", "mining", "success", "error"
     const [lastMined, setLastMined] = useState(null);
     const [highlightedBranch, setHighlightedBranch] = useState(null);
-    const [zoom, setZoom] = useState(0.8); // Initial zoom level
+    const [newNode, setNewNode] = useState(null);
     const [translate, setTranslate] = useState({ x: 100, y: 300 }); // Initial position
+    const [zoom, setZoom] = useState(0.8); // Initial zoom
 
     useEffect(() => {
         setIsMounted(true);
@@ -29,14 +30,14 @@ export default function Demo() {
                 name: "Earth",
                 children: earthBranch.map((b) => ({
                     name: `E${b.id} (${b.hash.slice(0, 6)}...)`,
-                    attributes: { fullHash: b.hash, location: b.location },
+                    attributes: { fullHash: b.hash, location: b.location, timestamp: b.timestamp, id: b.id },
                 })),
             },
             {
                 name: "Mars",
                 children: marsBranch.map((b) => ({
                     name: `M${b.id} (${b.hash.slice(0, 6)}...)`,
-                    attributes: { fullHash: b.hash, location: b.location },
+                    attributes: { fullHash: b.hash, location: b.location, timestamp: b.timestamp, id: b.id },
                 })),
             },
         ],
@@ -50,7 +51,13 @@ export default function Demo() {
             if (res.ok) {
                 setMiningStatus("success");
                 setLastMined(new Date().toLocaleTimeString());
-                setTimeout(() => window.location.reload(), 1500); // Delay to show success
+                const branch = data.earthBranch.length > earthBranch.length ? 'earthBranch' : 'marsBranch';
+                const newBlock = data[branch].slice(-1)[0];
+                setNewNode(`B${newBlock.id}`);
+                setTimeout(() => {
+                    setNewNode(null);
+                    window.location.reload();
+                }, 2000); // Flash for 2s then reload
             } else {
                 setMiningStatus("error");
             }
@@ -61,8 +68,8 @@ export default function Demo() {
 
     const resetView = () => {
         setHighlightedBranch(null);
-        setZoom(0.8); // Reset to initial zoom
-        setTranslate({ x: 100, y: 300 }); // Reset to initial position
+        setTranslate({ x: 100, y: 300 });
+        setZoom(0.8);
     };
 
     const handleNodeClick = (nodeDatum) => {
@@ -94,7 +101,7 @@ export default function Demo() {
                             <ul className="list-disc pl-5 text-gray-700 dark:text-gray-300 font-inter">
                                 {mainChain.map((b) => (
                                     <li key={b.id}>
-                                        {b.location} Block {b.id} (Hash: {b.hash})
+                                        {b.location} Block {b.id} (Hash: {b.hash}, Mined: {new Date(b.timestamp).toLocaleTimeString()})
                                     </li>
                                 ))}
                             </ul>
@@ -106,7 +113,7 @@ export default function Demo() {
                             <ul className="list-disc pl-5 text-gray-700 dark:text-gray-300 font-inter">
                                 {earthBranch.map((b) => (
                                     <li key={b.id}>
-                                        {b.location} Block {b.id} (Hash: {b.hash})
+                                        {b.location} Block {b.id} (Hash: {b.hash}, Mined: {new Date(b.timestamp).toLocaleTimeString()})
                                     </li>
                                 ))}
                             </ul>
@@ -118,7 +125,7 @@ export default function Demo() {
                             <ul className="list-disc pl-5 text-gray-700 dark:text-gray-300 font-inter">
                                 {marsBranch.map((b) => (
                                     <li key={b.id}>
-                                        {b.location} Block {b.id} (Hash: {b.hash})
+                                        {b.location} Block {b.id} (Hash: {b.hash}, Mined: {new Date(b.timestamp).toLocaleTimeString()})
                                     </li>
                                 ))}
                             </ul>
@@ -183,12 +190,8 @@ export default function Demo() {
                         onUpdate={handleTreeUpdate}
                         styles={{
                             nodes: {
-                                node: {
-                                    shape: "rect",
-                                },
-                                leafNode: {
-                                    shape: "rect",
-                                },
+                                node: { shape: "rect" },
+                                leafNode: { shape: "rect" },
                             },
                             links: {
                                 stroke: "#6b7280",
@@ -208,11 +211,13 @@ export default function Demo() {
                                     x={-10}
                                     y={-10}
                                     fill={
-                                        nodeDatum.children
-                                            ? "#4b5e40"
-                                            : nodeDatum.parent?.data.name === "Earth"
+                                        nodeDatum.name === newNode
+                                            ? "#ffd700" // Gold flash for new node
+                                            : nodeDatum.children
                                                 ? "#4b5e40"
-                                                : "#ff6b6b"
+                                                : nodeDatum.parent?.data.name === "Earth"
+                                                    ? "#4b5e40"
+                                                    : "#ff6b6b"
                                     }
                                     stroke={
                                         nodeDatum.children
@@ -227,7 +232,7 @@ export default function Demo() {
                                 <text dx="20" dy=".33em" fill="#333" fontFamily="Inter" fontSize="14px">
                                     {nodeDatum.name}
                                 </text>
-                                <title>{`${nodeDatum.attributes?.location} Block - Hash: ${nodeDatum.attributes?.fullHash}`}</title>
+                                <title>{`${nodeDatum.attributes?.location} Block ${nodeDatum.attributes?.id} - Hash: ${nodeDatum.attributes?.fullHash} (Mined: ${new Date(nodeDatum.attributes?.timestamp).toLocaleTimeString()})`}</title>
                             </g>
                         )}
                     />
@@ -240,7 +245,7 @@ export default function Demo() {
                         <ul className="list-disc pl-5 text-gray-700 dark:text-gray-300 font-inter">
                             {mainChain.map((b) => (
                                 <li key={b.id}>
-                                    {b.location} Block {b.id} (Hash: {b.hash})
+                                    {b.location} Block {b.id} (Hash: {b.hash}, Mined: {new Date(b.timestamp).toLocaleTimeString()})
                                 </li>
                             ))}
                         </ul>
@@ -252,7 +257,7 @@ export default function Demo() {
                         <ul className="list-disc pl-5 text-gray-700 dark:text-gray-300 font-inter">
                             {earthBranch.map((b) => (
                                 <li key={b.id}>
-                                    {b.location} Block {b.id} (Hash: {b.hash})
+                                    {b.location} Block {b.id} (Hash: {b.hash}, Mined: {new Date(b.timestamp).toLocaleTimeString()})
                                 </li>
                             ))}
                         </ul>
@@ -264,7 +269,7 @@ export default function Demo() {
                         <ul className="list-disc pl-5 text-gray-700 dark:text-gray-300 font-inter">
                             {marsBranch.map((b) => (
                                 <li key={b.id}>
-                                    {b.location} Block {b.id} (Hash: {b.hash})
+                                    {b.location} Block {b.id} (Hash: {b.hash}, Mined: {new Date(b.timestamp).toLocaleTimeString()})
                                 </li>
                             ))}
                         </ul>
