@@ -59,8 +59,8 @@ export default function Demo() {
                 setMarsBranch(data.marsBranch);
                 const branch = data.earthBranch.length > earthBranch.length ? 'earthBranch' : 'marsBranch';
                 const newBlock = data[branch].slice(-1)[0];
-                setNewNode(`B${newBlock.id}`);
-                setTimeout(() => setNewNode(null), 2000); // Flash for 2s, no reload
+                setNewNode(`${branch === 'earthBranch' ? 'E' : 'M'}${newBlock.id} (${newBlock.hash.slice(0, 6)}...)`);
+                setTimeout(() => setNewNode(null), 2000); // Flash for 2s
             } else {
                 setMiningStatus("error");
             }
