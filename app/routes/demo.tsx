@@ -12,9 +12,11 @@ export async function loader() {
 export default function Demo() {
     const { mainChain, earthBranch, marsBranch } = useLoaderData();
     const [isMounted, setIsMounted] = useState(false);
+    const [miningStatus, setMiningStatus] = useState("idle"); // "idle", "mining", "success", "error"
+    const [lastMined, setLastMined] = useState(null);
+    const [highlightedBranch, setHighlightedBranch] = useState(null);
 
     useEffect(() => {
-        console.log("Client mount effect triggered");
         setIsMounted(true);
     }, []);
 
@@ -24,42 +26,47 @@ export default function Demo() {
             {
                 name: "Earth",
                 children: earthBranch.map((b) => ({
-                    name: `${b.location} ${b.id} (${b.hash})`,
+                    name: `E${b.id} (${b.hash.slice(0, 6)}...)`,
+                    attributes: { fullHash: b.hash, location: b.location },
                 })),
             },
             {
                 name: "Mars",
                 children: marsBranch.map((b) => ({
-                    name: `${b.location} ${b.id} (${b.hash})`,
+                    name: `M${b.id} (${b.hash.slice(0, 6)}...)`,
+                    attributes: { fullHash: b.hash, location: b.location },
                 })),
             },
         ],
     };
 
     const handleMine = async () => {
+        setMiningStatus("mining");
         try {
-            const res = await fetch("https://demo.blocktree.com/chain/mine", {  // Use your SSL URL
-                method: "POST",
-            });
+            const res = await fetch("https://demo.blocktree.com/chain/mine", { method: "POST" });
             const data = await res.json();
-            console.log("Mining response:", res.status, data);
             if (res.ok) {
-                window.location.reload();
+                setMiningStatus("success");
+                setLastMined(new Date().toLocaleTimeString());
+                setTimeout(() => window.location.reload(), 1500); // Delay to show success
             } else {
-                console.error("Mining failed:", res.status, res.statusText, data);
-                alert("Mining failed! Check the console for details.");
+                setMiningStatus("error");
             }
         } catch (error) {
-            console.error("Error during mining:", error);
-            alert("Something went wrong while mining!");
+            setMiningStatus("error");
         }
     };
 
-    console.log("Rendering Demo, isMounted:", isMounted);
-    console.log("treeData:", JSON.stringify(treeData));
+    const resetView = () => {
+        setHighlightedBranch(null);
+    };
+
+    const handleNodeClick = (nodeDatum) => {
+        const branch = nodeDatum.parent?.data.name;
+        setHighlightedBranch(branch === "Earth" || branch === "Mars" ? branch : null);
+    };
 
     if (!isMounted) {
-        console.log("SSR render - skipping Tree");
         return (
             <Layout>
                 <div className="w-full max-w-4xl mx-auto px-4 py-12 mt-[4rem]">
@@ -122,40 +129,98 @@ export default function Demo() {
                 <p className="mt-4 text-lg text-gray-600 dark:text-gray-300 font-inter text-center">
                     Watch the blockchain split into Earth and Mars branches!
                 </p>
+                <div className="mt-4 text-center text-gray-700 dark:text-gray-300 font-inter">
+                    {lastMined ? `Last Mined: ${lastMined}` : "No blocks mined yet."}
+                </div>
+                <div className="mt-4 flex justify-center gap-4">
+                    <button
+                        onClick={handleMine}
+                        disabled={miningStatus === "mining"}
+                        className={`px-4 py-2 rounded font-inter transition-all ${miningStatus === "mining"
+                            ? "bg-gray-500 cursor-not-allowed"
+                            : "bg-purple-600 hover:bg-purple-700 text-white"
+                            }`}
+                    >
+                        {miningStatus === "mining" ? "Mining..." : "Mine"}
+                    </button>
+                    <button
+                        onClick={resetView}
+                        className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 font-inter transition-colors"
+                    >
+                        Reset View
+                    </button>
+                </div>
+                <div className="mt-2 text-center font-inter">
+                    {miningStatus === "success" && (
+                        <p className="text-green-500">Block mined successfully!</p>
+                    )}
+                    {miningStatus === "error" && (
+                        <p className="text-red-500">Mining failed. Try again.</p>
+                    )}
+                </div>
                 <div
-                    className="mt-8 flex justify-center items-center bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-md"
-                    style={{ height: "500px" }}
+                    className="mt-8 bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-md"
+                    style={{ height: "600px" }}
                 >
                     <Tree
                         data={treeData}
                         orientation="horizontal"
-                        translate={{ x: 50, y: 200 }}
-                        nodeSize={{ x: 100, y: 80 }}
-                        separation={{ siblings: 0.8, nonSiblings: 1 }}
-                        initialDepth={2}
-                        zoom={0.7}
+                        translate={{ x: 100, y: 300 }}
+                        nodeSize={{ x: 150, y: 100 }}
+                        separation={{ siblings: 1, nonSiblings: 1.5 }}
+                        zoom={0.8}
+                        transitionDuration={500}
+                        onNodeClick={handleNodeClick}
                         styles={{
                             nodes: {
                                 node: {
-                                    circle: { fill: "#4b5e40", stroke: "#2f3d27", strokeWidth: 2, r: 10 },
-                                    attributes: { fill: "#333", fontFamily: "Inter", fontSize: "14px", dx: "1em" },
+                                    shape: "rect", // This is informational, actual shape set in renderCustomNodeElement
                                 },
                                 leafNode: {
-                                    circle: { fill: "#8b5cf6", stroke: "#5b21b6", strokeWidth: 2, r: 10 },
-                                    attributes: { fill: "#333", fontFamily: "Inter", fontSize: "14px", dx: "1em" },
+                                    shape: "rect",
                                 },
                             },
-                            links: { stroke: "#6b7280", strokeWidth: 2 },
+                            links: {
+                                stroke: "#6b7280",
+                                strokeWidth: (d) =>
+                                    highlightedBranch && d.source.data.name === highlightedBranch ? 4 : 2,
+                                strokeDasharray: (d) =>
+                                    highlightedBranch && d.source.data.name !== highlightedBranch
+                                        ? "5,5"
+                                        : "none",
+                            },
                         }}
+                        renderCustomNodeElement={({ nodeDatum, toggleNode }) => (
+                            <g>
+                                <rect
+                                    width={20}
+                                    height={20}
+                                    x={-10} // Center the square on the node's position
+                                    y={-10}
+                                    fill={
+                                        nodeDatum.children
+                                            ? "#4b5e40"
+                                            : nodeDatum.parent?.data.name === "Earth"
+                                                ? "#4b5e40"
+                                                : "#ff6b6b"
+                                    }
+                                    stroke={
+                                        nodeDatum.children
+                                            ? "#2f3d27"
+                                            : nodeDatum.parent?.data.name === "Earth"
+                                                ? "#2f3d27"
+                                                : "#b91c1c"
+                                    }
+                                    strokeWidth={2}
+                                    onClick={toggleNode}
+                                />
+                                <text dx="20" dy=".33em" fill="#333" fontFamily="Inter" fontSize="14px">
+                                    {nodeDatum.name}
+                                </text>
+                                <title>{`${nodeDatum.attributes?.location} Block - Hash: ${nodeDatum.attributes?.fullHash}`}</title>
+                            </g>
+                        )}
                     />
-                </div>
-                <div className="mt-4 text-center">
-                    <button
-                        onClick={handleMine}
-                        className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition-colors"
-                    >
-                        Mine
-                    </button>
                 </div>
                 <div className="mt-8 space-y-8 bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-md">
                     <div>
