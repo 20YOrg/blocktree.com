@@ -12,12 +12,12 @@ export async function loader() {
 export default function Demo() {
     const initialData = useLoaderData();
     const [isMounted, setIsMounted] = useState(false);
-    const [miningStatus, setMiningStatus] = useState("idle"); // "idle", "mining", "success", "error"
+    const [miningStatus, setMiningStatus] = useState("idle");
     const [lastMined, setLastMined] = useState(null);
     const [highlightedBranch, setHighlightedBranch] = useState(null);
     const [newNode, setNewNode] = useState(null);
-    const [translate, setTranslate] = useState({ x: 100, y: 300 }); // Initial position
-    const [zoom, setZoom] = useState(0.8); // Initial zoom
+    const [translate, setTranslate] = useState({ x: 100, y: 150 }); // Adjusted y to center in 300px height
+    const [zoom, setZoom] = useState(0.8);
     const [mainChain, setMainChain] = useState(initialData.mainChain);
     const [earthBranch, setEarthBranch] = useState(initialData.earthBranch);
     const [marsBranch, setMarsBranch] = useState(initialData.marsBranch);
@@ -26,24 +26,44 @@ export default function Demo() {
         setIsMounted(true);
     }, []);
 
-    const treeData = {
-        name: "Root",
-        children: [
-            {
-                name: "Earth",
-                children: earthBranch.map((b) => ({
-                    name: `E${b.id} (${b.hash.slice(0, 6)}...)`,
-                    attributes: { fullHash: b.hash, location: b.location, timestamp: b.timestamp, id: b.id },
-                })),
-            },
-            {
-                name: "Mars",
-                children: marsBranch.map((b) => ({
-                    name: `M${b.id} (${b.hash.slice(0, 6)}...)`,
-                    attributes: { fullHash: b.hash, location: b.location, timestamp: b.timestamp, id: b.id },
-                })),
-            },
-        ],
+    // Build a linear chain for a given set of blocks
+    const buildChain = (blocks, branchPrefix) => {
+        if (!blocks.length) return null;
+        let chain = null;
+        for (let i = blocks.length - 1; i >= 0; i--) {
+            const b = blocks[i];
+            chain = {
+                name: `${branchPrefix}${b.id} (${b.hash.slice(0, 6)}...)`,
+                attributes: { fullHash: b.hash, location: b.location, timestamp: b.timestamp, id: b.id },
+                children: chain ? [chain] : [],
+            };
+        }
+        return chain;
+    };
+
+    // Construct tree data with Root splitting to Earth and Mars
+    const treeData = () => {
+        const rootChain = buildChain(mainChain, "R");
+        if (!rootChain) return { name: "Root", children: [] };
+
+        const earthBlocks = earthBranch.filter(b => b.location === "Earth");
+        const marsBlocks = marsBranch.filter(b => b.location === "Mars");
+
+        if (!earthBlocks.length && !marsBlocks.length) {
+            return rootChain;
+        }
+
+        let lastRoot = rootChain;
+        while (lastRoot.children && lastRoot.children.length) {
+            lastRoot = lastRoot.children[0];
+        }
+
+        const earthChain = buildChain(earthBlocks, "E");
+        const marsChain = buildChain(marsBlocks, "M");
+
+        lastRoot.children = [earthChain, marsChain].filter(Boolean);
+
+        return rootChain;
     };
 
     const handleMine = async () => {
@@ -71,13 +91,13 @@ export default function Demo() {
 
     const resetView = () => {
         setHighlightedBranch(null);
-        setTranslate({ x: 100, y: 300 });
+        setTranslate({ x: 100, y: 150 }); // Match initial translate
         setZoom(0.8);
     };
 
     const handleNodeClick = (nodeDatum) => {
-        const branch = nodeDatum.parent?.data.name;
-        setHighlightedBranch(branch === "Earth" || branch === "Mars" ? branch : null);
+        const branch = nodeDatum.name.startsWith("E") ? "Earth" : nodeDatum.name.startsWith("M") ? "Mars" : "Root";
+        setHighlightedBranch(branch);
     };
 
     const handleTreeUpdate = ({ translate, zoom }) => {
@@ -179,15 +199,15 @@ export default function Demo() {
                 </div>
                 <div
                     className="mt-8 bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-md"
-                    style={{ height: "600px" }}
+                    style={{ height: "300px" }} // Your chosen height
                 >
                     <Tree
-                        data={treeData}
+                        data={treeData()}
                         orientation="horizontal"
                         translate={translate}
                         zoom={zoom}
-                        nodeSize={{ x: 150, y: 100 }}
-                        separation={{ siblings: 1, nonSiblings: 1.5 }}
+                        nodeSize={{ x: 200, y: 100 }}
+                        separation={{ siblings: 0.5, nonSiblings: 1 }}
                         transitionDuration={500}
                         onNodeClick={handleNodeClick}
                         onUpdate={handleTreeUpdate}
@@ -199,9 +219,13 @@ export default function Demo() {
                             links: {
                                 stroke: "#6b7280",
                                 strokeWidth: (d) =>
-                                    highlightedBranch && d.source.data.name === highlightedBranch ? 4 : 2,
+                                    highlightedBranch &&
+                                        (d.source.name.startsWith(highlightedBranch[0]) || d.target.name.startsWith(highlightedBranch[0]))
+                                        ? 4
+                                        : 2,
                                 strokeDasharray: (d) =>
-                                    highlightedBranch && d.source.data.name !== highlightedBranch
+                                    highlightedBranch &&
+                                        !(d.source.name.startsWith(highlightedBranch[0]) || d.target.name.startsWith(highlightedBranch[0]))
                                         ? "5,5"
                                         : "none",
                             },
@@ -216,23 +240,30 @@ export default function Demo() {
                                     fill={
                                         nodeDatum.name === newNode
                                             ? "#ffd700" // Gold flash for new node
-                                            : nodeDatum.children
+                                            : nodeDatum.name.startsWith("R")
                                                 ? "#4b5e40"
-                                                : nodeDatum.parent?.data.name === "Earth"
+                                                : nodeDatum.name.startsWith("E")
                                                     ? "#4b5e40"
                                                     : "#ff6b6b"
                                     }
                                     stroke={
-                                        nodeDatum.children
+                                        nodeDatum.name.startsWith("R")
                                             ? "#2f3d27"
-                                            : nodeDatum.parent?.data.name === "Earth"
+                                            : nodeDatum.name.startsWith("E")
                                                 ? "#2f3d27"
                                                 : "#b91c1c"
                                     }
                                     strokeWidth={2}
                                     onClick={toggleNode}
                                 />
-                                <text dx="20" dy=".33em" fill="#333" fontFamily="Inter" fontSize="14px">
+                                <text
+                                    dx="0"
+                                    dy="30"
+                                    fill="#333"
+                                    fontFamily="Inter"
+                                    fontSize="14px"
+                                    textAnchor="middle"
+                                >
                                     {nodeDatum.name}
                                 </text>
                                 <title>{`${nodeDatum.attributes?.location} Block ${nodeDatum.attributes?.id} - Hash: ${nodeDatum.attributes?.fullHash} (Mined: ${new Date(nodeDatum.attributes?.timestamp).toLocaleTimeString()})`}</title>
