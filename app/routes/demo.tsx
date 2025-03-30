@@ -10,7 +10,7 @@ export async function loader() {
 }
 
 export default function Demo() {
-    const { mainChain, earthBranch, marsBranch } = useLoaderData();
+    const initialData = useLoaderData();
     const [isMounted, setIsMounted] = useState(false);
     const [miningStatus, setMiningStatus] = useState("idle"); // "idle", "mining", "success", "error"
     const [lastMined, setLastMined] = useState(null);
@@ -18,6 +18,9 @@ export default function Demo() {
     const [newNode, setNewNode] = useState(null);
     const [translate, setTranslate] = useState({ x: 100, y: 300 }); // Initial position
     const [zoom, setZoom] = useState(0.8); // Initial zoom
+    const [mainChain, setMainChain] = useState(initialData.mainChain);
+    const [earthBranch, setEarthBranch] = useState(initialData.earthBranch);
+    const [marsBranch, setMarsBranch] = useState(initialData.marsBranch);
 
     useEffect(() => {
         setIsMounted(true);
@@ -51,13 +54,13 @@ export default function Demo() {
             if (res.ok) {
                 setMiningStatus("success");
                 setLastMined(new Date().toLocaleTimeString());
+                setMainChain(data.mainChain);
+                setEarthBranch(data.earthBranch);
+                setMarsBranch(data.marsBranch);
                 const branch = data.earthBranch.length > earthBranch.length ? 'earthBranch' : 'marsBranch';
                 const newBlock = data[branch].slice(-1)[0];
                 setNewNode(`B${newBlock.id}`);
-                setTimeout(() => {
-                    setNewNode(null);
-                    window.location.reload();
-                }, 2000); // Flash for 2s then reload
+                setTimeout(() => setNewNode(null), 2000); // Flash for 2s, no reload
             } else {
                 setMiningStatus("error");
             }
