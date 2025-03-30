@@ -15,6 +15,8 @@ export default function Demo() {
     const [miningStatus, setMiningStatus] = useState("idle"); // "idle", "mining", "success", "error"
     const [lastMined, setLastMined] = useState(null);
     const [highlightedBranch, setHighlightedBranch] = useState(null);
+    const [zoom, setZoom] = useState(0.8); // Initial zoom level
+    const [translate, setTranslate] = useState({ x: 100, y: 300 }); // Initial position
 
     useEffect(() => {
         setIsMounted(true);
@@ -59,11 +61,18 @@ export default function Demo() {
 
     const resetView = () => {
         setHighlightedBranch(null);
+        setZoom(0.8); // Reset to initial zoom
+        setTranslate({ x: 100, y: 300 }); // Reset to initial position
     };
 
     const handleNodeClick = (nodeDatum) => {
         const branch = nodeDatum.parent?.data.name;
         setHighlightedBranch(branch === "Earth" || branch === "Mars" ? branch : null);
+    };
+
+    const handleTreeUpdate = ({ translate, zoom }) => {
+        setTranslate(translate);
+        setZoom(zoom);
     };
 
     if (!isMounted) {
@@ -165,16 +174,17 @@ export default function Demo() {
                     <Tree
                         data={treeData}
                         orientation="horizontal"
-                        translate={{ x: 100, y: 300 }}
+                        translate={translate}
+                        zoom={zoom}
                         nodeSize={{ x: 150, y: 100 }}
                         separation={{ siblings: 1, nonSiblings: 1.5 }}
-                        zoom={0.8}
                         transitionDuration={500}
                         onNodeClick={handleNodeClick}
+                        onUpdate={handleTreeUpdate}
                         styles={{
                             nodes: {
                                 node: {
-                                    shape: "rect", // This is informational, actual shape set in renderCustomNodeElement
+                                    shape: "rect",
                                 },
                                 leafNode: {
                                     shape: "rect",
@@ -195,7 +205,7 @@ export default function Demo() {
                                 <rect
                                     width={20}
                                     height={20}
-                                    x={-10} // Center the square on the node's position
+                                    x={-10}
                                     y={-10}
                                     fill={
                                         nodeDatum.children
