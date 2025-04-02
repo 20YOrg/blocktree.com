@@ -16,7 +16,7 @@ export default function Demo() {
     const [lastMined, setLastMined] = useState(null);
     const [highlightedBranch, setHighlightedBranch] = useState(null);
     const [newNode, setNewNode] = useState(null);
-    const [translate, setTranslate] = useState({ x: 100, y: 150 });
+    const [translate, setTranslate] = useState({ x: 100, y: 120 });
     const [zoom, setZoom] = useState(0.8);
     const [mainChain, setMainChain] = useState(initialData.mainChain);
     const [earthBranch, setEarthBranch] = useState(initialData.earthBranch);
@@ -252,9 +252,9 @@ export default function Demo() {
                                 </defs>
                                 {/* Node rectangle with gradient */}
                                 <rect
-                                    width={24} // Slightly larger
+                                    width={24}
                                     height={24}
-                                    x={-12} // Adjusted for centering
+                                    x={-12}
                                     y={-12}
                                     fill={
                                         nodeDatum.name === newNode
@@ -274,7 +274,8 @@ export default function Demo() {
                                     dy="30"
                                     fill="#333"
                                     fontFamily="Inter"
-                                    fontSize="14px"
+                                    fontSize="18px"
+                                    fontWeight="100" // Added to make text thinner
                                     textAnchor="middle"
                                 >
                                     {nodeDatum.name}
