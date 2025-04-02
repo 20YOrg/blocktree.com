@@ -1,6 +1,6 @@
 import { useLoaderData } from "@remix-run/react";
 import Layout from "~/components/Layout";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Tree from "react-d3-tree";
 
 export async function loader() {
@@ -16,17 +16,17 @@ export default function Demo() {
     const [lastMined, setLastMined] = useState(null);
     const [highlightedBranch, setHighlightedBranch] = useState(null);
     const [newNode, setNewNode] = useState(null);
-    const [translate, setTranslate] = useState({ x: 100, y: 150 }); // Adjusted y to center in 300px height
+    const [translate, setTranslate] = useState({ x: 100, y: 150 });
     const [zoom, setZoom] = useState(0.8);
     const [mainChain, setMainChain] = useState(initialData.mainChain);
     const [earthBranch, setEarthBranch] = useState(initialData.earthBranch);
     const [marsBranch, setMarsBranch] = useState(initialData.marsBranch);
+    const treeRef = useRef();
 
     useEffect(() => {
         setIsMounted(true);
     }, []);
 
-    // Build a linear chain for a given set of blocks
     const buildChain = (blocks, branchPrefix) => {
         if (!blocks.length) return null;
         let chain = null;
@@ -41,7 +41,6 @@ export default function Demo() {
         return chain;
     };
 
-    // Construct tree data with Root splitting to Earth and Mars
     const treeData = () => {
         const rootChain = buildChain(mainChain, "R");
         if (!rootChain) return { name: "Root", children: [] };
@@ -77,10 +76,17 @@ export default function Demo() {
                 setMainChain(data.mainChain);
                 setEarthBranch(data.earthBranch);
                 setMarsBranch(data.marsBranch);
-                const branch = data.earthBranch.length > earthBranch.length ? 'earthBranch' : 'marsBranch';
+                const branch = data.earthBranch.length > earthBranch.length ? 'earthBranch' :
+                    data.marsBranch.length > marsBranch.length ? 'marsBranch' : 'mainChain';
                 const newBlock = data[branch].slice(-1)[0];
-                setNewNode(`${branch === 'earthBranch' ? 'E' : 'M'}${newBlock.id} (${newBlock.hash.slice(0, 6)}...)`);
-                setTimeout(() => setNewNode(null), 2000); // Flash for 2s
+                const newNodeName = `${branch === 'mainChain' ? 'R' : branch === 'earthBranch' ? 'E' : 'M'}${newBlock.id} (${newBlock.hash.slice(0, 6)}...)`;
+                setNewNode(newNodeName);
+                setTimeout(() => {
+                    setNewNode(null);
+                    if (treeRef.current) {
+                        setTranslate({ x: translate.x + 200, y: translate.y });
+                    }
+                }, 2000); // Flash for 2s
             } else {
                 setMiningStatus("error");
             }
@@ -91,7 +97,7 @@ export default function Demo() {
 
     const resetView = () => {
         setHighlightedBranch(null);
-        setTranslate({ x: 100, y: 150 }); // Match initial translate
+        setTranslate({ x: 100, y: 150 });
         setZoom(0.8);
     };
 
@@ -199,9 +205,10 @@ export default function Demo() {
                 </div>
                 <div
                     className="mt-8 bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-md"
-                    style={{ height: "300px" }} // Your chosen height
+                    style={{ height: "300px" }}
                 >
                     <Tree
+                        ref={treeRef}
                         data={treeData()}
                         orientation="horizontal"
                         translate={translate}
@@ -232,26 +239,32 @@ export default function Demo() {
                         }}
                         renderCustomNodeElement={({ nodeDatum, toggleNode }) => (
                             <g>
+                                {/* Define gradients */}
+                                <defs>
+                                    <linearGradient id="rootGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style={{ stopColor: "#4b5e40", stopOpacity: 1 }} />
+                                        <stop offset="100%" style={{ stopColor: "#2f3d27", stopOpacity: 1 }} />
+                                    </linearGradient>
+                                    <linearGradient id="marsGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style={{ stopColor: "#ff6b6b", stopOpacity: 1 }} />
+                                        <stop offset="100%" style={{ stopColor: "#b91c1c", stopOpacity: 1 }} />
+                                    </linearGradient>
+                                </defs>
+                                {/* Node rectangle with gradient */}
                                 <rect
-                                    width={20}
-                                    height={20}
-                                    x={-10}
-                                    y={-10}
+                                    width={24} // Slightly larger
+                                    height={24}
+                                    x={-12} // Adjusted for centering
+                                    y={-12}
                                     fill={
                                         nodeDatum.name === newNode
-                                            ? "#ffd700" // Gold flash for new node
-                                            : nodeDatum.name.startsWith("R")
-                                                ? "#4b5e40"
-                                                : nodeDatum.name.startsWith("E")
-                                                    ? "#4b5e40"
-                                                    : "#ff6b6b"
+                                            ? "#ffd700"
+                                            : nodeDatum.name.startsWith("R") || nodeDatum.name.startsWith("E")
+                                                ? "url(#rootGradient)"
+                                                : "url(#marsGradient)"
                                     }
                                     stroke={
-                                        nodeDatum.name.startsWith("R")
-                                            ? "#2f3d27"
-                                            : nodeDatum.name.startsWith("E")
-                                                ? "#2f3d27"
-                                                : "#b91c1c"
+                                        nodeDatum.name.startsWith("R") || nodeDatum.name.startsWith("E") ? "#2f3d27" : "#b91c1c"
                                     }
                                     strokeWidth={2}
                                     onClick={toggleNode}
