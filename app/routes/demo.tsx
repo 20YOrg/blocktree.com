@@ -83,9 +83,6 @@ export default function Demo() {
                 setNewNode(newNodeName);
                 setTimeout(() => {
                     setNewNode(null);
-                    if (treeRef.current) {
-                        setTranslate({ x: translate.x + 200, y: translate.y });
-                    }
                 }, 2000); // Flash for 2s
             } else {
                 setMiningStatus("error");
