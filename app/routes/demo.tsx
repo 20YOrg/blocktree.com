@@ -4,9 +4,14 @@ import { useState, useEffect, useRef } from "react";
 import Tree from "react-d3-tree";
 
 export async function loader() {
-    const res = await fetch("http://77.37.54.98:3001/chain");
-    const data = await res.json();
-    return Response.json(data);
+    try {
+        const res = await fetch("http://77.37.54.98:3001/chain");
+        const data = await res.json();
+        return Response.json(data);
+    } catch (error) {
+        console.error("Loader error:", error);
+        return Response.json({ mainChain: [], earthBranch: [], marsBranch: [] });
+    }
 }
 
 export default function Demo() {
@@ -94,7 +99,7 @@ export default function Demo() {
 
     const resetView = () => {
         setHighlightedBranch(null);
-        setTranslate({ x: 100, y: 120 });
+        setTranslate({ x: 100, y: 120 }); // Synced with initial state
         setZoom(0.8);
     };
 
@@ -262,7 +267,6 @@ export default function Demo() {
                         }}
                         renderCustomNodeElement={({ nodeDatum, toggleNode }) => (
                             <g>
-                                {/* Define gradients */}
                                 <defs>
                                     <linearGradient id="rootGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                                         <stop offset="0%" style={{ stopColor: "#4b5e40", stopOpacity: 1 }} />
@@ -273,7 +277,6 @@ export default function Demo() {
                                         <stop offset="100%" style={{ stopColor: "#b91c1c", stopOpacity: 1 }} />
                                     </linearGradient>
                                 </defs>
-                                {/* Node rectangle with gradient */}
                                 <rect
                                     width={24}
                                     height={24}
@@ -298,7 +301,7 @@ export default function Demo() {
                                     fill="#333"
                                     fontFamily="Inter"
                                     fontSize="18px"
-                                    fontWeight="100" // Added to make text thinner
+                                    fontWeight="100"
                                     textAnchor="middle"
                                 >
                                     {nodeDatum.name}
