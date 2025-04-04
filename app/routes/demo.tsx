@@ -98,13 +98,15 @@ export default function Demo() {
     };
 
     const resetView = () => {
+        const longestBranch = Math.max(mainChain.length, earthBranch.length, marsBranch.length);
+        const newZoom = Math.max(Math.min(0.8 / (longestBranch / 4), 0.8), 0.3); // Dynamic zoom: 0.8 to 0.3
         setHighlightedBranch(null);
         setTranslate({ x: 100, y: 120 });
-        setZoom(0.8);
+        setZoom(newZoom);
     };
 
     const handleResetBlockchain = async () => {
-        setMiningStatus("mining"); // Reuse "mining" state for simplicity
+        setMiningStatus("mining");
         try {
             const res = await fetch("https://demo.blocktree.com/chain/reset", { method: "POST" });
             const data = await res.json();
