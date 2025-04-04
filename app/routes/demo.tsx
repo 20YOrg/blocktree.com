@@ -99,8 +99,29 @@ export default function Demo() {
 
     const resetView = () => {
         setHighlightedBranch(null);
-        setTranslate({ x: 100, y: 120 }); // Synced with initial state
+        setTranslate({ x: 100, y: 120 });
         setZoom(0.8);
+    };
+
+    const handleResetBlockchain = async () => {
+        setMiningStatus("mining"); // Reuse "mining" state for simplicity
+        try {
+            const res = await fetch("https://demo.blocktree.com/chain/reset", { method: "POST" });
+            const data = await res.json();
+            if (res.ok) {
+                setMiningStatus("success");
+                setLastMined(null);
+                setMainChain(data.mainChain);
+                setEarthBranch(data.earthBranch);
+                setMarsBranch(data.marsBranch);
+                setNewNode(null);
+                resetView();
+            } else {
+                setMiningStatus("error");
+            }
+        } catch (error) {
+            setMiningStatus("error");
+        }
     };
 
     const handleNodeClick = (nodeDatum) => {
@@ -221,6 +242,16 @@ export default function Demo() {
                         className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 font-inter transition-colors"
                     >
                         Reset View
+                    </button>
+                    <button
+                        onClick={handleResetBlockchain}
+                        disabled={miningStatus === "mining"}
+                        className={`px-4 py-2 rounded font-inter transition-all ${miningStatus === "mining"
+                            ? "bg-gray-500 cursor-not-allowed"
+                            : "bg-blue-600 hover:bg-blue-700 text-white"
+                            }`}
+                    >
+                        Reset Blockchain
                     </button>
                 </div>
                 <div className="mt-2 text-center font-inter">
