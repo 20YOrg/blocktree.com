@@ -251,10 +251,10 @@ export default function Demo() {
                             : "bg-blue-600 hover:bg-blue-700 text-white"
                             }`}
                     >
-                        Reset Blockchain
+                        Reset Blocktree
                     </button>
                 </div>
-                <div className="mt-2 text-center font-inter">
+                <div className="mt-2 text-center font-inter h-6">
                     {miningStatus === "success" && (
                         <p className="text-green-500">Block mined successfully!</p>
                     )}
