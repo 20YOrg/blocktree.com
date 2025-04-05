@@ -10,7 +10,7 @@ export async function loader() {
         return Response.json(data);
     } catch (error) {
         console.error("Loader error:", error);
-        return Response.json({ mainChain: [], earthBranch: [], marsBranch: [] });
+        return Response.json({ mainChain: [], earthBranch: [], marsBranch: [], earth1Branch: [], venusBranch: [], mars1Branch: [], europaBranch: [] });
     }
 }
 
@@ -26,6 +26,10 @@ export default function Demo() {
     const [mainChain, setMainChain] = useState(initialData.mainChain);
     const [earthBranch, setEarthBranch] = useState(initialData.earthBranch);
     const [marsBranch, setMarsBranch] = useState(initialData.marsBranch);
+    const [earth1Branch, setEarth1Branch] = useState(initialData.earth1Branch || []);
+    const [venusBranch, setVenusBranch] = useState(initialData.venusBranch || []);
+    const [mars1Branch, setMars1Branch] = useState(initialData.mars1Branch || []);
+    const [europaBranch, setEuropaBranch] = useState(initialData.europaBranch || []);
     const treeRef = useRef();
 
     useEffect(() => {
@@ -52,8 +56,12 @@ export default function Demo() {
 
         const earthBlocks = earthBranch.filter(b => b.location === "Earth");
         const marsBlocks = marsBranch.filter(b => b.location === "Mars");
+        const earth1Blocks = earth1Branch.filter(b => b.location === "Earth1");
+        const venusBlocks = venusBranch.filter(b => b.location === "Venus");
+        const mars1Blocks = mars1Branch.filter(b => b.location === "Mars1");
+        const europaBlocks = europaBranch.filter(b => b.location === "Europa");
 
-        if (!earthBlocks.length && !marsBlocks.length) {
+        if (!earthBlocks.length && !marsBlocks.length && !earth1Blocks.length && !venusBlocks.length && !mars1Blocks.length && !europaBlocks.length) {
             return rootChain;
         }
 
@@ -64,8 +72,27 @@ export default function Demo() {
 
         const earthChain = buildChain(earthBlocks, "E");
         const marsChain = buildChain(marsBlocks, "M");
-
         lastRoot.children = [earthChain, marsChain].filter(Boolean);
+
+        if (earth1Blocks.length || venusBlocks.length) {
+            let lastEarth = earthChain;
+            while (lastEarth.children && lastEarth.children.length) {
+                lastEarth = lastEarth.children[0];
+            }
+            const earth1Chain = buildChain(earth1Blocks, "E1");
+            const venusChain = buildChain(venusBlocks, "V");
+            lastEarth.children = [earth1Chain, venusChain].filter(Boolean);
+        }
+
+        if (mars1Blocks.length || europaBlocks.length) {
+            let lastMars = marsChain;
+            while (lastMars.children && lastMars.children.length) {
+                lastMars = lastMars.children[0];
+            }
+            const mars1Chain = buildChain(mars1Blocks, "M1");
+            const europaChain = buildChain(europaBlocks, "Eu");
+            lastMars.children = [mars1Chain, europaChain].filter(Boolean);
+        }
 
         return rootChain;
     };
@@ -81,14 +108,26 @@ export default function Demo() {
                 setMainChain(data.mainChain);
                 setEarthBranch(data.earthBranch);
                 setMarsBranch(data.marsBranch);
-                const branch = data.earthBranch.length > earthBranch.length ? 'earthBranch' :
-                    data.marsBranch.length > marsBranch.length ? 'marsBranch' : 'mainChain';
-                const newBlock = data[branch].slice(-1)[0];
-                const newNodeName = `${branch === 'mainChain' ? 'R' : branch === 'earthBranch' ? 'E' : 'M'}${newBlock.id} (${newBlock.hash.slice(0, 6)}...)`;
+                setEarth1Branch(data.earth1Branch || []);
+                setVenusBranch(data.venusBranch || []);
+                setMars1Branch(data.mars1Branch || []);
+                setEuropaBranch(data.europaBranch || []);
+                const branchLengths = {
+                    mainChain: data.mainChain.length - mainChain.length,
+                    earthBranch: data.earthBranch.length - earthBranch.length,
+                    marsBranch: data.marsBranch.length - marsBranch.length,
+                    earth1Branch: (data.earth1Branch?.length || 0) - earth1Branch.length,
+                    venusBranch: (data.venusBranch?.length || 0) - venusBranch.length,
+                    mars1Branch: (data.mars1Branch?.length || 0) - mars1Branch.length,
+                    europaBranch: (data.europaBranch?.length || 0) - europaBranch.length
+                };
+                const grownBranch = Object.keys(branchLengths).find(key => branchLengths[key] > 0) || 'mainChain';
+                const newBlock = data[grownBranch].slice(-1)[0];
+                const newNodeName = `${grownBranch === 'mainChain' ? 'R' : grownBranch === 'earthBranch' ? 'E' : grownBranch === 'marsBranch' ? 'M' : grownBranch === 'earth1Branch' ? 'E1' : grownBranch === 'venusBranch' ? 'V' : grownBranch === 'mars1Branch' ? 'M1' : 'Eu'}${newBlock.id} (${newBlock.hash.slice(0, 6)}...)`;
                 setNewNode(newNodeName);
                 setTimeout(() => {
                     setNewNode(null);
-                }, 2000); // Flash for 2s
+                }, 2000);
             } else {
                 setMiningStatus("error");
             }
@@ -98,8 +137,8 @@ export default function Demo() {
     };
 
     const resetView = () => {
-        const longestBranch = Math.max(mainChain.length, earthBranch.length, marsBranch.length);
-        const newZoom = Math.min(0.8 / (longestBranch / 4), 0.8); // Removed minimum zoom cap
+        const longestBranch = Math.max(mainChain.length, earthBranch.length, marsBranch.length, earth1Branch.length, venusBranch.length, mars1Branch.length, europaBranch.length);
+        const newZoom = Math.min(0.8 / (longestBranch / 4), 0.8); // No minimum zoom
         setHighlightedBranch(null);
         setTranslate({ x: 100, y: 120 });
         setZoom(newZoom);
@@ -116,6 +155,10 @@ export default function Demo() {
                 setMainChain(data.mainChain);
                 setEarthBranch(data.earthBranch);
                 setMarsBranch(data.marsBranch);
+                setEarth1Branch(data.earth1Branch || []);
+                setVenusBranch(data.venusBranch || []);
+                setMars1Branch(data.mars1Branch || []);
+                setEuropaBranch(data.europaBranch || []);
                 setNewNode(null);
                 resetView();
             } else {
@@ -127,7 +170,12 @@ export default function Demo() {
     };
 
     const handleNodeClick = (nodeDatum) => {
-        const branch = nodeDatum.name.startsWith("E") ? "Earth" : nodeDatum.name.startsWith("M") ? "Mars" : "Root";
+        const branch = nodeDatum.name.startsWith("E1") ? "Earth1" :
+            nodeDatum.name.startsWith("E") ? "Earth" :
+                nodeDatum.name.startsWith("M1") ? "Mars1" :
+                    nodeDatum.name.startsWith("M") ? "Mars" :
+                        nodeDatum.name.startsWith("V") ? "Venus" :
+                            nodeDatum.name.startsWith("Eu") ? "Europa" : "Root";
         setHighlightedBranch(branch);
     };
 
@@ -178,6 +226,54 @@ export default function Demo() {
                             </h2>
                             <ul className="list-disc pl-5 text-gray-700 dark:text-gray-300 font-inter">
                                 {marsBranch.map((b) => (
+                                    <li key={b.id}>
+                                        {b.location} Block {b.id} (Hash: {b.hash}, Mined: {new Date(b.timestamp).toLocaleTimeString()})
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div>
+                            <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 font-poppins mb-2">
+                                Earth1 Branch
+                            </h2>
+                            <ul className="list-disc pl-5 text-gray-700 dark:text-gray-300 font-inter">
+                                {earth1Branch.map((b) => (
+                                    <li key={b.id}>
+                                        {b.location} Block {b.id} (Hash: {b.hash}, Mined: {new Date(b.timestamp).toLocaleTimeString()})
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div>
+                            <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 font-poppins mb-2">
+                                Venus Branch
+                            </h2>
+                            <ul className="list-disc pl-5 text-gray-700 dark:text-gray-300 font-inter">
+                                {venusBranch.map((b) => (
+                                    <li key={b.id}>
+                                        {b.location} Block {b.id} (Hash: {b.hash}, Mined: {new Date(b.timestamp).toLocaleTimeString()})
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div>
+                            <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 font-poppins mb-2">
+                                Mars1 Branch
+                            </h2>
+                            <ul className="list-disc pl-5 text-gray-700 dark:text-gray-300 font-inter">
+                                {mars1Branch.map((b) => (
+                                    <li key={b.id}>
+                                        {b.location} Block {b.id} (Hash: {b.hash}, Mined: {new Date(b.timestamp).toLocaleTimeString()})
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div>
+                            <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 font-poppins mb-2">
+                                Europa Branch
+                            </h2>
+                            <ul className="list-disc pl-5 text-gray-700 dark:text-gray-300 font-inter">
+                                {europaBranch.map((b) => (
                                     <li key={b.id}>
                                         {b.location} Block {b.id} (Hash: {b.hash}, Mined: {new Date(b.timestamp).toLocaleTimeString()})
                                     </li>
@@ -318,12 +414,12 @@ export default function Demo() {
                                     fill={
                                         nodeDatum.name === newNode
                                             ? "#ffd700"
-                                            : nodeDatum.name.startsWith("R") || nodeDatum.name.startsWith("E")
+                                            : nodeDatum.name.startsWith("R") || nodeDatum.name.startsWith("E") || nodeDatum.name.startsWith("E1") || nodeDatum.name.startsWith("V")
                                                 ? "url(#rootGradient)"
                                                 : "url(#marsGradient)"
                                     }
                                     stroke={
-                                        nodeDatum.name.startsWith("R") || nodeDatum.name.startsWith("E") ? "#2f3d27" : "#b91c1c"
+                                        nodeDatum.name.startsWith("R") || nodeDatum.name.startsWith("E") || nodeDatum.name.startsWith("E1") || nodeDatum.name.startsWith("V") ? "#2f3d27" : "#b91c1c"
                                     }
                                     strokeWidth={2}
                                     onClick={toggleNode}
@@ -375,6 +471,54 @@ export default function Demo() {
                         </h2>
                         <ul className="list-disc pl-5 text-gray-700 dark:text-gray-300 font-inter">
                             {marsBranch.map((b) => (
+                                <li key={b.id}>
+                                    {b.location} Block {b.id} (Hash: {b.hash}, Mined: {new Date(b.timestamp).toLocaleTimeString()})
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div>
+                        <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 font-poppins mb-2">
+                            Earth1 Branch
+                        </h2>
+                        <ul className="list-disc pl-5 text-gray-700 dark:text-gray-300 font-inter">
+                            {earth1Branch.map((b) => (
+                                <li key={b.id}>
+                                    {b.location} Block {b.id} (Hash: {b.hash}, Mined: {new Date(b.timestamp).toLocaleTimeString()})
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div>
+                        <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 font-poppins mb-2">
+                            Venus Branch
+                        </h2>
+                        <ul className="list-disc pl-5 text-gray-700 dark:text-gray-300 font-inter">
+                            {venusBranch.map((b) => (
+                                <li key={b.id}>
+                                    {b.location} Block {b.id} (Hash: {b.hash}, Mined: {new Date(b.timestamp).toLocaleTimeString()})
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div>
+                        <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 font-poppins mb-2">
+                            Mars1 Branch
+                        </h2>
+                        <ul className="list-disc pl-5 text-gray-700 dark:text-gray-300 font-inter">
+                            {mars1Branch.map((b) => (
+                                <li key={b.id}>
+                                    {b.location} Block {b.id} (Hash: {b.hash}, Mined: {new Date(b.timestamp).toLocaleTimeString()})
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div>
+                        <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 font-poppins mb-2">
+                            Europa Branch
+                        </h2>
+                        <ul className="list-disc pl-5 text-gray-700 dark:text-gray-300 font-inter">
+                            {europaBranch.map((b) => (
                                 <li key={b.id}>
                                     {b.location} Block {b.id} (Hash: {b.hash}, Mined: {new Date(b.timestamp).toLocaleTimeString()})
                                 </li>
