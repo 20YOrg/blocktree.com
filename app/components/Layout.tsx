@@ -3,59 +3,77 @@ import { Link, Outlet } from "@remix-run/react";
 
 export default function Layout({ children }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+    const [hoveredLink, setHoveredLink] = useState(null); // 跟踪当前 hover 的链接
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
+    const handleMouseEnter = (link) => setHoveredLink(link);
+    const handleMouseLeave = () => setHoveredLink(null);
+
     return (
-        <div className="flex min-h-screen flex-col bg-gray-50 dark:bg-gray-900">
+        <div className="flex min-h-screen flex-col bg-[#131313]">
             {/* Top Menu (Header) */}
-            <header className="fixed w-full bg-white dark:bg-gray-800 shadow-md z-10">
-                <nav className="max-w-4xl mx-auto px-4 py-6 flex items-center justify-between">
+            <header className="fixed w-full bg-black bg-opacity-70 shadow-md z-10 top-0">
+                <nav className="max-w-7xl mx-auto px-4 md:px-12 py-4 flex items-center justify-between">
                     <div className="flex items-center gap-2">
                         {/* Logo */}
                         <Link to="/">
                             <img
-                                src="/blocktree-logo-black.png"
-                                alt="Blocktree Logo"
-                                className="w-32 dark:hidden"
-                            />
-                            <img
                                 src="/blocktree-logo-white.png"
                                 alt="Blocktree Logo"
-                                className="w-32 hidden dark:block"
+                                className="w-32"
                             />
                         </Link>
                     </div>
                     {/* Desktop Nav */}
                     <div className="hidden md:flex items-center gap-8">
                         <Link
-                            to="/about"
-                            className="text-gray-800 dark:text-gray-100 font-inter font-semibold text-sm hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
+                            to="https://github.com"
+                            className="flex items-center gap-2 text-[#FFFFFF] font-poppins font-light text-[16px] hover:text-blue-500 transition-colors"
+                            onMouseEnter={() => handleMouseEnter('github')}
+                            onMouseLeave={handleMouseLeave}
                         >
-                            About
+                            <img
+                                src={hoveredLink === 'github' ? '/github-hover.png' : '/github.png'}
+                                alt="Github Icon"
+                                className="w-4 h-4"
+                            />
+                            Github
                         </Link>
                         <Link
-                            to="/features"
-                            className="text-gray-800 dark:text-gray-100 font-inter font-semibold text-sm hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
+                            to="/whitepaper"
+                            className="flex items-center gap-2 text-[#FFFFFF] font-poppins font-light text-[16px] hover:text-blue-500 transition-colors"
+                            onMouseEnter={() => handleMouseEnter('whitepaper')}
+                            onMouseLeave={handleMouseLeave}
                         >
-                            Features
-                        </Link>
-                        <Link
-                            to="/use-cases"
-                            className="text-gray-800 dark:text-gray-100 font-inter font-semibold text-sm hover:text-blue-400 transition-colors"
-                        >
-                            Use Cases
+                            <img
+                                src={hoveredLink === 'whitepaper' ? '/whitepaper-hover.png' : '/whitepaper.png'}
+                                alt="Whitepaper Icon"
+                                className="w-4 h-4"
+                            />
+                            Whitepaper
                         </Link>
                         <Link
                             to="/contact"
-                            className="text-gray-800 dark:text-gray-100 font-inter font-semibold text-sm hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
+                            className="flex items-center gap-2 text-[#FFFFFF] font-poppins font-light text-[16px] hover:text-blue-500 transition-colors"
+                            onMouseEnter={() => handleMouseEnter('contact')}
+                            onMouseLeave={handleMouseLeave}
                         >
+                            <img
+                                src={hoveredLink === 'contact' ? '/contact-hover.png' : '/contact.png'}
+                                alt="Contact Icon"
+                                className="w-4 h-4"
+                            />
                             Contact
+                        </Link>
+                        <Link to="/demo" className="ml-4">
+                            <button className="bg-white text-black font-poppins font-semibold text-[16px] rounded-[20px] py-2 px-4 hover:bg-gray-200 transition-colors">
+                                Demo
+                            </button>
                         </Link>
                     </div>
                     {/* Mobile Menu Button */}
                     <button
-                        className="md:hidden text-gray-800 dark:text-gray-100 focus:outline-none"
+                        className="md:hidden text-[#FFFFFF] focus:outline-none"
                         onClick={toggleMenu}
                     >
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -70,35 +88,56 @@ export default function Layout({ children }) {
                 </nav>
                 {/* Mobile Menu */}
                 {isMenuOpen && (
-                    <div className="md:hidden bg-white dark:bg-gray-800 shadow-md">
-                        <div className="flex flex-col px-4 py-4 space-y-4">
+                    <div className="md:hidden bg-[#131313] shadow-md">
+                        <div className="max-w-7xl mx-auto px-4 md:px-12 py-4 space-y-4">
                             <Link
-                                to="/about"
-                                className="text-gray-800 dark:text-gray-100 font-inter font-semibold text-sm hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
+                                to="https://github.com"
+                                className="flex items-center gap-2 text-[#FFFFFF] font-poppins font-light text-[16px] hover:text-blue-500 transition-colors"
                                 onClick={toggleMenu}
+                                onMouseEnter={() => handleMouseEnter('github')}
+                                onMouseLeave={handleMouseLeave}
                             >
-                                About
+                                <img
+                                    src={hoveredLink === 'github' ? '/github-hover.png' : '/github.png'}
+                                    alt="Github Icon"
+                                    className="w-4 h-4"
+                                />
+                                Github
                             </Link>
                             <Link
-                                to="/features"
-                                className="text-gray-800 dark:text-gray-100 font-inter font-semibold text-sm hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
+                                to="/whitepaper"
+                                className="flex items-center gap-2 text-[#FFFFFF] font-poppins font-light text-[16px] hover:text-blue-500 transition-colors"
                                 onClick={toggleMenu}
+                                onMouseEnter={() => handleMouseEnter('whitepaper')}
+                                onMouseLeave={handleMouseLeave}
                             >
-                                Features
-                            </Link>
-                            <Link
-                                to="/use-cases"
-                                className="text-gray-800 dark:text-gray-100 font-inter font-semibold text-sm hover:text-blue-400 transition-colors"
-                                onClick={toggleMenu}
-                            >
-                                Use Cases
+                                <img
+                                    src={hoveredLink === 'whitepaper' ? '/whitepaper-hover.png' : '/whitepaper.png'}
+                                    alt="Whitepaper Icon"
+                                    className="w-4 h-4"
+                                />
+                                Whitepaper
                             </Link>
                             <Link
                                 to="/contact"
-                                className="text-gray-800 dark:text-gray-100 font-inter font-semibold text-sm hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
+                                className="flex items-center gap-2 text-[#FFFFFF] font-poppins font-light text-[16px] hover:text-blue-500 transition-colors"
+                                onClick={toggleMenu}
+                                onMouseEnter={() => handleMouseEnter('contact')}
+                                onMouseLeave={handleMouseLeave}
+                            >
+                                <img
+                                    src={hoveredLink === 'contact' ? '/contact-hover.png' : '/contact.png'}
+                                    alt="Contact Icon"
+                                    className="w-4 h-4"
+                                />
+                                Contact
+                            </Link>
+                            <Link
+                                to="/demo"
+                                className="block text-[#FFFFFF] font-poppins font-light text-[16px] hover:text-blue-500 transition-colors"
                                 onClick={toggleMenu}
                             >
-                                Contact
+                                Demo
                             </Link>
                         </div>
                     </div>
@@ -106,36 +145,44 @@ export default function Layout({ children }) {
             </header>
 
             {/* Main Content */}
-            <main className="flex-1 w-full pt-[80px]">{children || <Outlet />}</main>
+            <main className="flex-1 w-full">{children || <Outlet />}</main>
 
             {/* Footer */}
-            <footer className="bg-gray-200 dark:bg-gray-800 py-6">
-                <div className="max-w-4xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+            <footer className="bg-[#111111] py-10">
+                <div className="max-w-7xl mx-auto px-4 md:px-12 flex flex-col md:flex-row justify-between items-center gap-4">
+                    {/* Left: Logo */}
                     <div className="mb-4 md:mb-0">
-                        <p className="text-gray-700 dark:text-gray-300 font-inter">
+                        <Link to="/">
+                            <img
+                                src="/blocktree-logo-white.png"
+                                alt="Blocktree Logo"
+                                className="w-28"
+                            />
+                        </Link>
+                    </div>
+                    {/* Center: Copyright */}
+                    <div className="text-center">
+                        <p className="text-[#6C727F] font-poppins font-medium text-[12px]">
                             © 2025 Blocktree Foundation. All rights reserved.
                         </p>
                     </div>
-                    <div className="flex gap-4">
-                        <a href="/about" className="text-gray-700 dark:text-gray-300 font-inter hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
-                            About
+                    {/* Right: Icons */}
+                    <div className="flex gap-2 mt-4 md:mt-0">
+                        <a
+                            href="https://github.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="bg-[#3D3D3D] rounded-[5px] p-[5px]"
+                        >
+                            <img src="/github.png" alt="Github Icon" className="w-4 h-4" />
                         </a>
-                        <a href="/features" className="text-gray-700 dark:text-gray-300 font-inter hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
-                            Features
-                        </a>
-                        <a href="/use-cases" className="text-gray-700 dark:text-gray-300 font-inter hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
-                            Use Cases
-                        </a>
-                        <a href="/contact" className="text-gray-700 dark:text-gray-300 font-inter hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
-                            Contact
-                        </a>
-                    </div>
-                    <div className="flex gap-4 mt-4 md:mt-0">
-                        <a href="https://x.com/IbaiBasabe" target="_blank" rel="noopener noreferrer" className="text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
-                            X
-                        </a>
-                        <a href="https://t.me/dribai" target="_blank" rel="noopener noreferrer" className="text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
-                            Telegram
+                        <a
+                            href="/whitepaper"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="bg-[#3D3D3D] rounded-[5px] p-[5px]"
+                        >
+                            <img src="/whitepaper-thick.png" alt="Whitepaper Icon" className="w-4 h-4" />
                         </a>
                     </div>
                 </div>
