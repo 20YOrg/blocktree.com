@@ -1,19 +1,43 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, Outlet } from "@remix-run/react";
 
 export default function Layout({ children }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [hoveredLink, setHoveredLink] = useState(null); // 跟踪当前 hover 的链接
+    const [isMobile, setIsMobile] = useState(false); // 动态检测是否为移动端
+
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
     const handleMouseEnter = (link) => setHoveredLink(link);
     const handleMouseLeave = () => setHoveredLink(null);
 
+    // 动态检测屏幕大小
+    useEffect(() => {
+        // 初始检测
+        const checkIsMobile = () => {
+            const width = window.innerWidth;
+            setIsMobile(width < 768);
+        };
+
+        // 客户端渲染时执行
+        if (typeof window !== "undefined") {
+            checkIsMobile(); // 初始检查
+            window.addEventListener('resize', checkIsMobile); // 监听窗口大小变化
+        }
+
+        // 清理事件监听
+        return () => {
+            if (typeof window !== "undefined") {
+                window.removeEventListener('resize', checkIsMobile);
+            }
+        };
+    }, []);
+
     return (
         <div className="flex min-h-screen flex-col bg-[#131313]">
             {/* Top Menu (Header) */}
             <header className="fixed w-full bg-black bg-opacity-70 shadow-md z-10 top-0">
-                <nav className="max-w-7xl mx-auto px-4 md:px-12 py-4 flex items-center justify-between">
+                <nav className="max-w-7xl mx-auto px-4 md:px-12 py-5 md:py-4 flex items-center justify-between">
                     <div className="flex items-center gap-2">
                         {/* Logo */}
                         <Link to="/">
@@ -66,7 +90,7 @@ export default function Layout({ children }) {
                             Contact
                         </Link>
                         <Link to="/demo" className="ml-4">
-                            <button className="bg-white text-black font-poppins font-semibold text-[16px] rounded-[20px] py-2 px-4 hover:bg-gray-200 transition-colors">
+                            <button className="bg-white text-black font-poppins font-bold text-[16px] rounded-[20px] py-2 px-4 hover:bg-gray-200 transition-colors">
                                 Demo
                             </button>
                         </Link>
@@ -76,7 +100,12 @@ export default function Layout({ children }) {
                         className="md:hidden text-[#FFFFFF] focus:outline-none"
                         onClick={toggleMenu}
                     >
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg
+                            className={`w-6 h-6 transition-transform duration-300 ${isMenuOpen ? 'rotate-90' : ''}`}
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
                             <path
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
@@ -87,61 +116,81 @@ export default function Layout({ children }) {
                     </button>
                 </nav>
                 {/* Mobile Menu */}
-                {isMenuOpen && (
-                    <div className="md:hidden bg-[#131313] shadow-md">
-                        <div className="max-w-7xl mx-auto px-4 md:px-12 py-4 space-y-4">
-                            <Link
-                                to="https://github.com"
-                                className="flex items-center gap-2 text-[#FFFFFF] font-poppins font-light text-[16px] hover:text-blue-500 transition-colors"
-                                onClick={toggleMenu}
-                                onMouseEnter={() => handleMouseEnter('github')}
-                                onMouseLeave={handleMouseLeave}
-                            >
-                                <img
-                                    src={hoveredLink === 'github' ? '/github-hover.png' : '/github.png'}
-                                    alt="Github Icon"
-                                    className="w-4 h-4"
-                                />
-                                Github
-                            </Link>
-                            <Link
-                                to="/whitepaper"
-                                className="flex items-center gap-2 text-[#FFFFFF] font-poppins font-light text-[16px] hover:text-blue-500 transition-colors"
-                                onClick={toggleMenu}
-                                onMouseEnter={() => handleMouseEnter('whitepaper')}
-                                onMouseLeave={handleMouseLeave}
-                            >
-                                <img
-                                    src={hoveredLink === 'whitepaper' ? '/whitepaper-hover.png' : '/whitepaper.png'}
-                                    alt="Whitepaper Icon"
-                                    className="w-4 h-4"
-                                />
-                                Whitepaper
-                            </Link>
-                            <Link
-                                to="/contact"
-                                className="flex items-center gap-2 text-[#FFFFFF] font-poppins font-light text-[16px] hover:text-blue-500 transition-colors"
-                                onClick={toggleMenu}
-                                onMouseEnter={() => handleMouseEnter('contact')}
-                                onMouseLeave={handleMouseLeave}
-                            >
-                                <img
-                                    src={hoveredLink === 'contact' ? '/contact-hover.png' : '/contact.png'}
-                                    alt="Contact Icon"
-                                    className="w-4 h-4"
-                                />
-                                Contact
-                            </Link>
-                            <Link
-                                to="/demo"
-                                className="block text-[#FFFFFF] font-poppins font-light text-[16px] hover:text-blue-500 transition-colors"
-                                onClick={toggleMenu}
-                            >
+                <div
+                    className={`md:hidden bg-[#131313] shadow-md overflow-hidden transition-all duration-500 ease-in-out ${
+                        isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                    }`}
+                >
+                    <div className="max-w-7xl mx-auto px-4 md:px-12 py-8 space-y-6">
+                        <Link
+                            to="https://github.com"
+                            className="flex items-center gap-2 text-[#FFFFFF] font-poppins font-medium md:font-light text-[14px] md:text-[16px] md:hover:text-blue-500 transition-colors animate-fadeIn"
+                            onClick={toggleMenu}
+                            onMouseEnter={isMobile ? null : () => handleMouseEnter('github')}
+                            onMouseLeave={isMobile ? null : handleMouseLeave}
+                            style={{ animationDelay: '0ms' }}
+                        >
+                            <img
+                                src={isMobile || hoveredLink !== 'github' ? '/github.png' : '/github-hover.png'}
+                                alt="Github Icon"
+                                className="w-4 h-4"
+                            />
+                            Github
+                        </Link>
+                        <Link
+                            to="/whitepaper"
+                            className="flex items-center gap-2 text-[#FFFFFF] font-poppins font-medium md:font-light text-[14px] md:text-[16px] md:hover:text-blue-500 transition-colors animate-fadeIn"
+                            onClick={toggleMenu}
+                            onMouseEnter={isMobile ? null : () => handleMouseEnter('whitepaper')}
+                            onMouseLeave={isMobile ? null : handleMouseLeave}
+                            style={{ animationDelay: '100ms' }}
+                        >
+                            <img
+                                src={
+                                    isMobile
+                                        ? '/whitepaper-mobile.png'
+                                        : hoveredLink === 'whitepaper'
+                                        ? '/whitepaper-hover.png'
+                                        : '/whitepaper.png'
+                                }
+                                alt="Whitepaper Icon"
+                                className="w-[16px] h-[16px]"
+                            />
+                            Whitepaper
+                        </Link>
+                        <Link
+                            to="/contact"
+                            className="flex items-center gap-2 text-[#FFFFFF] font-poppins font-medium md:font-light text-[14px] md:text-[16px] md:hover:text-blue-500 transition-colors animate-fadeIn"
+                            onClick={toggleMenu}
+                            onMouseEnter={isMobile ? null : () => handleMouseEnter('contact')}
+                            onMouseLeave={isMobile ? null : handleMouseLeave}
+                            style={{ animationDelay: '200ms' }}
+                        >
+                            <img
+                                src={
+                                    isMobile
+                                        ? '/contact-mobile.png'
+                                        : hoveredLink === 'contact'
+                                        ? '/contact-hover.png'
+                                        : '/contact.png'
+                                }
+                                alt="Contact Icon"
+                                className="w-[16px] h-[13px]"
+                            />
+                            Contact
+                        </Link>
+                        <Link
+                            to="/demo"
+                            className="block animate-fadeIn"
+                            onClick={toggleMenu}
+                            style={{ animationDelay: '300ms' }}
+                        >
+                            <button className="bg-white text-black font-poppins font-bold text-[14px] md:text-[16px] rounded-[20px] py-2 px-4 md:hover:bg-gray-200 transition-colors">
                                 Demo
-                            </Link>
-                        </div>
+                            </button>
+                        </Link>
                     </div>
-                )}
+                </div>
             </header>
 
             {/* Main Content */}
@@ -187,6 +236,24 @@ export default function Layout({ children }) {
                     </div>
                 </div>
             </footer>
+
+            {/* 自定义 CSS 动画 */}
+            <style jsx>{`
+                @keyframes fadeIn {
+                    from {
+                        opacity: 0;
+                        transform: translateY(10px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+
+                .animate-fadeIn {
+                    animation: fadeIn 0.3s ease-in-out forwards;
+                }
+            `}</style>
         </div>
     );
 }
