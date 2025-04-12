@@ -254,24 +254,19 @@ export default function Index() {
                 </div>
             </section>
 
-{/* Use Cases Section - Modified to fix mobile browser toolbar issues */}
+{/* Use Cases Section - Modified with refs and background handling */}
 <section
     ref={useCasesSectionRef}
     className="relative min-h-[1100px] mb-16 md:mb-48 lg:mb-80 pt-16 pb-8"
-    style={{ zIndex: 0 }}
+    style={{ zIndex: 0 }} // Ensure the section has a base z-index
 >
-    {/* Background Element - Fixed height instead of viewport-dependent */}
+    {/* Background Element */}
     <div 
         ref={useCasesBackgroundRef}
-        className="absolute top-0 left-0 w-full h-[100%]" // Changed from h-screen to h-[100%]
+        className="absolute top-0 left-0 w-full h-screen bg-cover bg-center"
         style={{
             backgroundImage: "url('/use-cases-background.png')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundAttachment: "fixed", // This prevents resizing when toolbar appears
-            zIndex: 1,
-            transform: "translateZ(0)", // Force hardware acceleration
-            willChange: "transform" // Hint to browser about upcoming changes
+            zIndex: 1
         }}
     />
     
@@ -282,140 +277,140 @@ export default function Index() {
     <div 
         ref={useCasesContentRef}
         className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 max-w-7xl mx-auto px-4 md:px-12 relative"
-        style={{ zIndex: 2 }}
+        style={{ zIndex: 2 }} // Make sure content is above background
     >
-        {/* Block 1 */}
-        <div
-            className="pt-[48px] px-[26px] pb-[26px] rounded-[20px] bg-[#6E6E6E] bg-opacity-5 backdrop-blur-[40px] flex flex-col w-full md:max-w-[300px] mx-auto relative overflow-hidden"
-            style={{
-                position: 'relative',
-                border: 'none',
-            }}
-        >
-            <div
-                style={{
-                    content: '""',
-                    position: 'absolute',
-                    inset: '0',
-                    padding: '2px',
-                    borderRadius: '20px',
-                    background: 'linear-gradient(135deg, #FFFFFF, #555555)',
-                    WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-                    WebkitMaskComposite: 'xor',
-                    maskComposite: 'exclude',
-                    pointerEvents: 'none',
-                    zIndex: '0',
-                }}
-            ></div>
-            <img
-                src="/use-case-1.png"
-                alt="AI Economies"
-                className="mb-4 h-[90px] w-auto object-contain self-start relative z-10"
-            />
-            <h3
-                className="text-[1.375rem] md:text-[26px] font-semibold text-[#FFFFFF] font-poppins relative z-10"
-                style={{ letterSpacing: "1.3px" }}
-            >
-                AI Economies
-            </h3>
-            <p
-                className="mt-4 text-[0.875rem] md:text-[16px] font-light text-[#FFFFFF] font-poppins leading-[24px] relative z-10"
-                style={{ letterSpacing: "0.48px" }}
-            >
-                Enable autonomous AI agents to trade, invest, and operate in decentralized finance (DeFi)
-                without human intervention.
-            </p>
-        </div>
+                    {/* Block 1 */}
+                    <div
+                        className="pt-[48px] px-[26px] pb-[26px] rounded-[20px] bg-[#6E6E6E] bg-opacity-5 backdrop-blur-[40px] flex flex-col w-full md:max-w-[300px] mx-auto relative overflow-hidden"
+                        style={{
+                            position: 'relative',
+                            border: 'none',
+                        }}
+                    >
+                        <div
+                            style={{
+                                content: '""',
+                                position: 'absolute',
+                                inset: '0',
+                                padding: '2px',
+                                borderRadius: '20px',
+                                background: 'linear-gradient(135deg, #FFFFFF, #555555)',
+                                WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                                WebkitMaskComposite: 'xor',
+                                maskComposite: 'exclude',
+                                pointerEvents: 'none',
+                                zIndex: '0',
+                            }}
+                        ></div>
+                        <img
+                            src="/use-case-1.png"
+                            alt="AI Economies"
+                            className="mb-4 h-[90px] w-auto object-contain self-start relative z-10"
+                        />
+                        <h3
+                            className="text-[1.375rem] md:text-[26px] font-semibold text-[#FFFFFF] font-poppins relative z-10"
+                            style={{ letterSpacing: "1.3px" }}
+                        >
+                            AI Economies
+                        </h3>
+                        <p
+                            className="mt-4 text-[0.875rem] md:text-[16px] font-light text-[#FFFFFF] font-poppins leading-[24px] relative z-10"
+                            style={{ letterSpacing: "0.48px" }}
+                        >
+                            Enable autonomous AI agents to trade, invest, and operate in decentralized finance (DeFi)
+                            without human intervention.
+                        </p>
+                    </div>
 
-        {/* Block 2 */}
-        <div
-            className="pt-[48px] px-[26px] pb-[26px] rounded-[20px] bg-[#6E6E6E] bg-opacity-5 backdrop-blur-[40px] flex flex-col w-full md:max-w-[300px] mx-auto relative overflow-hidden"
-            style={{
-                position: 'relative',
-                border: 'none',
-            }}
-        >
-            <div
-                style={{
-                    content: '""',
-                    position: 'absolute',
-                    inset: '0',
-                    padding: '2px',
-                    borderRadius: '20px',
-                    background: 'linear-gradient(135deg, #FFFFFF, #555555)',
-                    WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-                    WebkitMaskComposite: 'xor',
-                    maskComposite: 'exclude',
-                    pointerEvents: 'none',
-                    zIndex: '0',
-                }}
-            ></div>
-            <img
-                src="/use-case-2.png"
-                alt="Edge DApps"
-                className="mb-4 h-[90px] w-auto object-contain self-start relative z-10"
-            />
-            <h3
-                className="text-[1.375rem] md:text-[26px] font-semibold text-[#FFFFFF] font-poppins relative z-10"
-                style={{ letterSpacing: "1.3px" }}
-            >
-                Edge DApps
-            </h3>
-            <p
-                className="mt-4 text-[0.875rem] md:text-[16px] font-light text-[#FFFFFF] font-poppins leading-[24px] relative z-10"
-                style={{ letterSpacing: "0.48px" }}
-            >
-                Power low-latency, decentralized apps for IoT, gaming, and real-time data processing at the
-                network edge.
-            </p>
-        </div>
+                    {/* Block 2 */}
+                    <div
+                        className="pt-[48px] px-[26px] pb-[26px] rounded-[20px] bg-[#6E6E6E] bg-opacity-5 backdrop-blur-[40px] flex flex-col w-full md:max-w-[300px] mx-auto relative overflow-hidden"
+                        style={{
+                            position: 'relative',
+                            border: 'none',
+                        }}
+                    >
+                        <div
+                            style={{
+                                content: '""',
+                                position: 'absolute',
+                                inset: '0',
+                                padding: '2px',
+                                borderRadius: '20px',
+                                background: 'linear-gradient(135deg, #FFFFFF, #555555)',
+                                WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                                WebkitMaskComposite: 'xor',
+                                maskComposite: 'exclude',
+                                pointerEvents: 'none',
+                                zIndex: '0',
+                            }}
+                        ></div>
+                        <img
+                            src="/use-case-2.png"
+                            alt="Edge DApps"
+                            className="mb-4 h-[90px] w-auto object-contain self-start relative z-10"
+                        />
+                        <h3
+                            className="text-[1.375rem] md:text-[26px] font-semibold text-[#FFFFFF] font-poppins relative z-10"
+                            style={{ letterSpacing: "1.3px" }}
+                        >
+                            Edge DApps
+                        </h3>
+                        <p
+                            className="mt-4 text-[0.875rem] md:text-[16px] font-light text-[#FFFFFF] font-poppins leading-[24px] relative z-10"
+                            style={{ letterSpacing: "0.48px" }}
+                        >
+                            Power low-latency, decentralized apps for IoT, gaming, and real-time data processing at the
+                            network edge.
+                        </p>
+                    </div>
 
-        {/* Block 3 */}
-        <div
-            className="pt-[48px] px-[26px] pb-[26px] rounded-[20px] bg-[#6E6E6E] bg-opacity-5 backdrop-blur-[40px] flex flex-col w-full md:max-w-[300px] mx-auto relative overflow-hidden"
-            style={{
-                position: 'relative',
-                border: 'none',
-            }}
-        >
-            <div
-                style={{
-                    content: '""',
-                    position: 'absolute',
-                    inset: '0',
-                    padding: '2px',
-                    borderRadius: '20px',
-                    background: 'linear-gradient(135deg, #FFFFFF, #555555)',
-                    WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-                    WebkitMaskComposite: 'xor',
-                    maskComposite: 'exclude',
-                    pointerEvents: 'none',
-                    zIndex: '0',
-                }}
-            ></div>
-            <img
-                src="/use-case-3.png"
-                alt="Space Economies"
-                className="mb-4 h-[90px] w-auto object-contain self-start relative z-10"
-            />
-            <h3
-                className="text-[1.375rem] md:text-[26px] font-semibold text-[#FFFFFF] font-poppins relative z-10"
-                style={{ letterSpacing: "1.3px" }}
-            >
-                Space Economies
-            </h3>
-            <p
-                className="mt-4 text-[0.875rem] md:text-[16px] font-light text-[#FFFFFF] font-poppins leading-[24px] relative z-10"
-                style={{ letterSpacing: "0.48px" }}
-            >
-                Facilitate secure, scalable transactions for interstellar commerce, mining, and colonization.
-            </p>
-        </div>
-    </div>
-    
-    {/* Extra space to ensure scrolling effect works well */}
-    <div className="h-64 relative z-10" />
-</section>
+                    {/* Block 3 */}
+                    <div
+                        className="pt-[48px] px-[26px] pb-[26px] rounded-[20px] bg-[#6E6E6E] bg-opacity-5 backdrop-blur-[40px] flex flex-col w-full md:max-w-[300px] mx-auto relative overflow-hidden"
+                        style={{
+                            position: 'relative',
+                            border: 'none',
+                        }}
+                    >
+                        <div
+                            style={{
+                                content: '""',
+                                position: 'absolute',
+                                inset: '0',
+                                padding: '2px',
+                                borderRadius: '20px',
+                                background: 'linear-gradient(135deg, #FFFFFF, #555555)',
+                                WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                                WebkitMaskComposite: 'xor',
+                                maskComposite: 'exclude',
+                                pointerEvents: 'none',
+                                zIndex: '0',
+                            }}
+                        ></div>
+                        <img
+                            src="/use-case-3.png"
+                            alt="Space Economies"
+                            className="mb-4 h-[90px] w-auto object-contain self-start relative z-10"
+                        />
+                        <h3
+                            className="text-[1.375rem] md:text-[26px] font-semibold text-[#FFFFFF] font-poppins relative z-10"
+                            style={{ letterSpacing: "1.3px" }}
+                        >
+                            Space Economies
+                        </h3>
+                        <p
+                            className="mt-4 text-[0.875rem] md:text-[16px] font-light text-[#FFFFFF] font-poppins leading-[24px] relative z-10"
+                            style={{ letterSpacing: "0.48px" }}
+                        >
+                            Facilitate secure, scalable transactions for interstellar commerce, mining, and colonization.
+                        </p>
+                    </div>
+                </div>
+                
+                {/* Extra space to ensure scrolling effect works well */}
+                <div className="h-64 relative z-10" />
+            </section>
 
             {/* Call to Action Section */}
             <section className="text-center mb-32 max-w-7xl mx-auto px-4 md:px-12">
