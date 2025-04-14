@@ -137,7 +137,7 @@ export default function Index() {
                     {/* Left Text Section */}
                     <div className="flex-1 flex flex-col justify-center">
                         <h2
-                            className="text-[1.375rem] md:text-2xl font-semibold text-[#FFFFFF] font-poppins font-light mb-4"
+                            className="text-[1.375rem] md:text-2xl font-light text-[#FFFFFF] font-poppins font-light mb-4"
                             style={{ letterSpacing: "1.5px", lineHeight: 1.2 }}
                         >
                             WHAT IS BLOCKTREE?
