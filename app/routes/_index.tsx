@@ -121,7 +121,7 @@ export default function Index() {
                     <div className="inline-block">
                         <Link to="/demo">
                             <button
-                                className="mt-6 md:mt-[42px] bg-white text-black font-bold font-poppins text-[14px] md:text-[16px] py-2 px-4 md:px-4 rounded-[20px]"
+                                className="mt-6 md:mt-[42px] bg-white text-black font-bold font-poppins text-[14px] md:text-[16px] py-2 px-4 md:px-4 rounded-[20px] md:hover:bg-gray-200 transition-colors"
                                 style={{ letterSpacing: "0.48px" }}
                             >
                                 Simulate Blocktree
