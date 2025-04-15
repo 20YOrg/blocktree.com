@@ -51,7 +51,7 @@ export default function Layout({ children }) {
             {/* Top Menu (Header) */}
             <header
                 ref={headerRef}
-                className="fixed w-full bg-black bg-opacity-10 sm:shadow-md z-10 top-0 backdrop-blur-16"
+                className="fixed w-full bg-black bg-opacity-30 sm:shadow-md z-10 top-0 backdrop-blur-16"
             >
                 <nav className="max-w-7xl mx-auto px-4 md:px-12 py-5 md:py-4 flex items-center justify-between">
                     <div className="flex items-center gap-2">
