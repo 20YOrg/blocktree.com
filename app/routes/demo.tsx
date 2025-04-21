@@ -604,7 +604,7 @@ export default function Demo() {
     height: '50px',
     display: 'flex',
     alignItems: 'center',
-    padding: '0 20px'
+    padding: isMediumScreen ? '0 10px' : '0 20px'
   }}>
     <div style={{ flex: 1, ...tableTextStyle, textAlign: 'left' }}>
       Branch Name
@@ -639,7 +639,7 @@ export default function Demo() {
         boxShadow: '0px 4px 20px 0px rgba(96, 96, 96, 0.20)',
         minHeight: '50px',
         display: 'flex',
-        padding: '0 20px',
+        padding: isMediumScreen ? '0 10px' : '0 20px',
         marginBottom: '10px',
         position: 'relative'
       }}>
@@ -677,7 +677,7 @@ export default function Demo() {
                 <div style={{
                   position: 'absolute',
                   left: '-1.5%',
-                  right: '-20px',
+                  right: isMediumScreen ? '-10px' : '-20px',
                   bottom: 0,
                   height: '1px',
                   background: '#565656'
