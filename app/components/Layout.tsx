@@ -239,7 +239,7 @@ export default function Layout({ children }) {
 
             <main className="flex-1 w-full">{children || <Outlet />}</main>
 
-            <footer className="bg-[#111111] py-10">
+            <footer className="bg-[#111111] py-10 relative z-10">
                 <div className="max-w-7xl mx-auto px-4 md:px-12 flex flex-col md:flex-row justify-between items-center gap-4">
                     <div className="mb-4 md:mb-0">
                         <Link to="/">
