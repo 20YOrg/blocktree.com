@@ -4,11 +4,11 @@ import { Link } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
     return [
-        { title: "Blocktree - Interstellar DApps and Space Economies" },
+        { title: "Blocktree - Scalable Blockchain for AI and Space Economies" },
         {
             name: "description",
             content:
-                "Explore Blocktree, a blockchain scaling solution for AI economies, edge DApps, and interstellar finance, inspired by @billqian_uae and @IbaiBasabe.",
+                "Blocktree revolutionizes blockchain with a tree-like architecture for AI-driven economies, edge DApps, and interstellar finance. Join a scalable, permissionless network for Earth and beyond.",
         },
     ];
 };
@@ -20,83 +20,83 @@ export default function Index() {
     const useCasesContentRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-      // Get references to the DOM elements
-      const section = useCasesSectionRef.current;
-      const background = useCasesBackgroundRef.current;
-      const content = useCasesContentRef.current;
-  
-      if (!section || !background || !content) return;
-  
-      // Track whether the background is currently fixed
-      let isBackgroundFixed = false;
-  
-      const handleScroll = () => {
-          // Get the current positions
-          const sectionRect = section.getBoundingClientRect();
-          const contentRect = content.getBoundingClientRect();
-          
-          // When the section enters the viewport but content hasn't reached top
-          if (sectionRect.top <= 0 && contentRect.top > 0) {
-              if (!isBackgroundFixed) {
-                  // Fix the background in place
-                  background.style.position = 'fixed';
-                  background.style.top = '0';
-                  background.style.left = '0';
-                  background.style.width = '100%';
-                  background.style.height = '100vh';
-                  isBackgroundFixed = true;
-              }
-          } 
-          // When content hits the top of the viewport
-          else if (contentRect.top <= 0) {
-              // Make the background move with the content without "jumping"
-              // Calculate how far we've scrolled past the content top point
-              const scrollPastContentTop = -contentRect.top;
-              
-              background.style.position = 'fixed';
-              background.style.top = `-${scrollPastContentTop}px`; // Move background up as we scroll
-              background.style.left = '0';
-              background.style.width = '100%';
-              background.style.height = '100vh';
-              isBackgroundFixed = true;
-          }
-          // Section is below viewport
-          else if (sectionRect.top > 0) {
-              if (isBackgroundFixed) {
-                  // Reset to normal flow
-                  background.style.position = 'absolute';
-                  background.style.top = '0';
-                  background.style.left = '0';
-                  background.style.width = '100%';
-                  background.style.height = '100vh';
-                  isBackgroundFixed = false;
-              }
-          }
-          
-          // Handle case where section scrolls completely out of view
-          if (sectionRect.bottom <= 0) {
-              if (isBackgroundFixed) {
-                  // Make the background position absolute at the bottom of the section
-                  background.style.position = 'absolute';
-                  background.style.top = `${Math.max(0, sectionRect.height - window.innerHeight)}px`;
-                  background.style.left = '0';
-                  background.style.width = '100%';
-                  background.style.height = '100vh';
-                  isBackgroundFixed = false;
-              }
-          }
-      };
-  
-      // Add scroll event listener
-      window.addEventListener('scroll', handleScroll);
-      // Initial call to set correct state
-      handleScroll();
-  
-      // Cleanup
-      return () => {
-          window.removeEventListener('scroll', handleScroll);
-      };
-  }, []);
+        // Get references to the DOM elements
+        const section = useCasesSectionRef.current;
+        const background = useCasesBackgroundRef.current;
+        const content = useCasesContentRef.current;
+
+        if (!section || !background || !content) return;
+
+        // Track whether the background is currently fixed
+        let isBackgroundFixed = false;
+
+        const handleScroll = () => {
+            // Get the current positions
+            const sectionRect = section.getBoundingClientRect();
+            const contentRect = content.getBoundingClientRect();
+
+            // When the section enters the viewport but content hasn't reached top
+            if (sectionRect.top <= 0 && contentRect.top > 0) {
+                if (!isBackgroundFixed) {
+                    // Fix the background in place
+                    background.style.position = 'fixed';
+                    background.style.top = '0';
+                    background.style.left = '0';
+                    background.style.width = '100%';
+                    background.style.height = '100vh';
+                    isBackgroundFixed = true;
+                }
+            }
+            // When content hits the top of the viewport
+            else if (contentRect.top <= 0) {
+                // Make the background move with the content without "jumping"
+                // Calculate how far we've scrolled past the content top point
+                const scrollPastContentTop = -contentRect.top;
+
+                background.style.position = 'fixed';
+                background.style.top = `-${scrollPastContentTop}px`; // Move background up as we scroll
+                background.style.left = '0';
+                background.style.width = '100%';
+                background.style.height = '100vh';
+                isBackgroundFixed = true;
+            }
+            // Section is below viewport
+            else if (sectionRect.top > 0) {
+                if (isBackgroundFixed) {
+                    // Reset to normal flow
+                    background.style.position = 'absolute';
+                    background.style.top = '0';
+                    background.style.left = '0';
+                    background.style.width = '100%';
+                    background.style.height = '100vh';
+                    isBackgroundFixed = false;
+                }
+            }
+
+            // Handle case where section scrolls completely out of view
+            if (sectionRect.bottom <= 0) {
+                if (isBackgroundFixed) {
+                    // Make the background position absolute at the bottom of the section
+                    background.style.position = 'absolute';
+                    background.style.top = `${Math.max(0, sectionRect.height - window.innerHeight)}px`;
+                    background.style.left = '0';
+                    background.style.width = '100%';
+                    background.style.height = '100vh';
+                    isBackgroundFixed = false;
+                }
+            }
+        };
+
+        // Add scroll event listener
+        window.addEventListener('scroll', handleScroll);
+        // Initial call to set correct state
+        handleScroll();
+
+        // Cleanup
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
     return (
         <>
@@ -110,13 +110,13 @@ export default function Index() {
                         className="text-[2rem] md:text-5xl font-medium text-[#FFFFFF] font-poppins max-w-[630px]"
                         style={{ letterSpacing: "0.48px", lineHeight: 1.2 }}
                     >
-                        Interstellar DApps and Space Economies.
+                        Interstellar DApps and Space Economies
                     </h1>
                     <p
                         className="mt-4 md:mt-8 text-base md:text-lg text-[#FFFFFF] font-poppins font-light max-w-[540px]"
                         style={{ letterSpacing: "0.48px", lineHeight: 1.5 }}
                     >
-                        Revolutionizing blockchain for the future of AI, edge computing, and beyond the stars.
+                        Blocktree’s tree-like architecture powers AI-driven finance, real-time edge DApps, and space commerce with subsecond block times and infinite scalability.
                     </p>
                     <div className="inline-block">
                         <Link to="/demo">
@@ -124,7 +124,7 @@ export default function Index() {
                                 className="mt-6 md:mt-[42px] bg-white text-black font-bold font-poppins text-[14px] md:text-[16px] py-2 px-4 md:px-4 rounded-[20px] md:hover:bg-gray-200 transition-colors"
                                 style={{ letterSpacing: "0.48px" }}
                             >
-                                Simulate Blocktree
+                                Blocktree Simulator
                             </button>
                         </Link>
                     </div>
@@ -145,12 +145,7 @@ export default function Index() {
                         <p
                             className="text-[0.875rem] md:text-base text-[#FFFFFF] font-poppins font-normal max-w-[540px]"
                         >
-                            Blocktree is a blockchain scaling solution that transforms traditional blockchain
-                            architectures into a spatially scalable "blocktree" structure. Inspired by @IbaiBasabe's vision,
-                            Blocktree enables efficient, permissionless networks for AI-driven economies, decentralized
-                            applications (DApps) at the edge, and financial systems for interstellar exploration. Building on
-                            @billqian_uae's FinTech 6.0 framework, Blocktree empowers silicon-based life and machine economies
-                            with unmatched scalability and trust.
+                            Blocktree is a blockchain scaling solution that transforms traditional blockchain architectures into a spatially scalable "blocktree" structure. It delivers subsecond block times and unbounded scalability for AI-driven economies, edge DApps, and interstellar finance. This permissionless network empowers silicon-based life and machine economies with unmatched scalability.
                         </p>
                     </div>
                     {/* Right GIF Section */}
@@ -191,7 +186,7 @@ export default function Index() {
                                     className="text-[0.875rem] md:text-[16px] text-[#000000] font-poppins font-medium text-left"
                                     style={{ letterSpacing: "0.8px" }}
                                 >
-                                    Spatial scalability with the blocktree architecture for infinite growth.
+                                    Spacial scalability via a tree-like structure with latency-driven branch splits.
                                 </p>
                             </div>
                             {/* Feature 2 */}
@@ -204,7 +199,7 @@ export default function Index() {
                                     className="text-[0.875rem] md:text-[16px] text-[#000000] font-poppins font-medium text-left"
                                     style={{ letterSpacing: "0.8px" }}
                                 >
-                                    AI integration for autonomous DeFi and machine-to-machine transactions.
+                                    AI-driven DeFi with subsecond block times for autonomous machine-to-machine trading.
                                 </p>
                             </div>
                             {/* Feature 3 */}
@@ -217,7 +212,7 @@ export default function Index() {
                                     className="text-[0.875rem] md:text-[16px] text-[#000000] font-poppins font-medium text-left"
                                     style={{ letterSpacing: "0.8px" }}
                                 >
-                                    Edge DApp support for low-latency, decentralized applications.
+                                    Low-latency edge DApps for IoT and gaming via latency-aware node clustering.
                                 </p>
                             </div>
                         </div>
@@ -246,7 +241,7 @@ export default function Index() {
                                     className="text-[0.875rem] md:text-[16px] text-[#000000] font-poppins font-medium text-left"
                                     style={{ letterSpacing: "0.8px" }}
                                 >
-                                    Permissionless, borderless blockchain for global and extraterrestrial adoption.
+                                    Permissionless PoW network for universal access, from Earth to extraterrestrial nodes.
                                 </p>
                             </div>
                         </div>
@@ -254,31 +249,31 @@ export default function Index() {
                 </div>
             </section>
 
-{/* Use Cases Section - Modified with refs and background handling */}
-<section
-    ref={useCasesSectionRef}
-    className="relative min-h-[1100px] mb-16 md:mb-48 lg:mb-80 pt-16 pb-8"
-    style={{ zIndex: 0 }} // Ensure the section has a base z-index
->
-    {/* Background Element */}
-    <div 
-        ref={useCasesBackgroundRef}
-        className="absolute top-0 left-0 w-full h-screen bg-cover bg-center"
-        style={{
-            backgroundImage: "url('/use-cases-background.png')",
-            zIndex: 1
-        }}
-    />
-    
-    {/* This div creates space before content appears */}
-    <div className="h-96 relative" style={{ zIndex: 2 }} />
-    
-    {/* Content Container - Ensure it's above background */}
-    <div 
-        ref={useCasesContentRef}
-        className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 max-w-7xl mx-auto px-4 md:px-12 relative"
-        style={{ zIndex: 2 }} // Make sure content is above background
-    >
+            {/* Use Cases Section - Modified with refs and background handling */}
+            <section
+                ref={useCasesSectionRef}
+                className="relative min-h-[1100px] mb-16 md:mb-48 lg:mb-80 pt-16 pb-8"
+                style={{ zIndex: 0 }}
+            >
+                {/* Background Element */}
+                <div
+                    ref={useCasesBackgroundRef}
+                    className="absolute top-0 left-0 w-full h-screen bg-cover bg-center"
+                    style={{
+                        backgroundImage: "url('/use-cases-background.png')",
+                        zIndex: 1
+                    }}
+                />
+
+                {/* This div creates space before content appears */}
+                <div className="h-96 relative" style={{ zIndex: 2 }} />
+
+                {/* Content Container - Ensure it's above background */}
+                <div
+                    ref={useCasesContentRef}
+                    className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 max-w-7xl mx-auto px-4 md:px-12 relative"
+                    style={{ zIndex: 2 }}
+                >
                     {/* Block 1 */}
                     <div
                         className="pt-[48px] px-[26px] pb-[26px] rounded-[20px] bg-[#6E6E6E] bg-opacity-5 backdrop-blur-[40px] flex flex-col w-full md:max-w-[300px] mx-auto relative overflow-hidden"
@@ -317,8 +312,7 @@ export default function Index() {
                             className="mt-4 text-[0.875rem] md:text-[16px] font-light text-[#FFFFFF] font-poppins leading-[24px] relative z-10"
                             style={{ letterSpacing: "0.48px" }}
                         >
-                            Enable autonomous AI agents to trade, invest, and operate in decentralized finance (DeFi)
-                            without human intervention.
+                            Enable autonomous AI agents to trade, invest, and operate in decentralized finance (DeFi) without human intervention.
                         </p>
                     </div>
 
@@ -360,8 +354,7 @@ export default function Index() {
                             className="mt-4 text-[0.875rem] md:text-[16px] font-light text-[#FFFFFF] font-poppins leading-[24px] relative z-10"
                             style={{ letterSpacing: "0.48px" }}
                         >
-                            Power low-latency, decentralized apps for IoT, gaming, and real-time data processing at the
-                            network edge.
+                            Power low-latency, decentralized apps for IoT, gaming, and real-time data processing at the network edge.
                         </p>
                     </div>
 
@@ -407,7 +400,7 @@ export default function Index() {
                         </p>
                     </div>
                 </div>
-                
+
                 {/* Extra space to ensure scrolling effect works well */}
                 <div className="h-64 relative z-10" />
             </section>
@@ -421,13 +414,13 @@ export default function Index() {
                             className="text-[1.375rem] md:text-[26px] font-thin text-[#FFFFFF] font-poppins mb-6 md:mb-[48px]"
                             style={{ letterSpacing: "1.3px", lineHeight: "39px" }}
                         >
-                            JOIN BLOCKTREE, JOIN THE FUTURE.
+                            BUILD THE COSMIC FUTURE WITH BLOCKTREE
                         </h2>
                         <p
                             className="text-[0.875rem] md:text-[16px] font-semibold text-[#FFFFFF] font-poppins mb-6 md:mb-[48px]"
                             style={{ letterSpacing: "0.8px", lineHeight: "24px" }}
                         >
-                            Be part of the future of blockchain and space economies. Contact us to learn more or collaborate.
+                            Join our open-source community to shape a scalable blockchain for AI, edge computing, and space. Collaborate on GitHub or contact us to innovate across Earth and Mars.
                         </p>
                         <a
                             href="mailto:contact@blocktree.com"
