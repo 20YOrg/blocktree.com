@@ -119,7 +119,7 @@ export default function Layout({ children }) {
                         </Link>
                         <Link to="/demo" className="ml-4">
                             <button className="bg-white text-black font-poppins font-bold text-[16px] rounded-[20px] py-2 px-4 hover:bg-gray-200 transition-colors">
-                                Demo
+                                Simulate
                             </button>
                         </Link>
                     </div>
@@ -231,7 +231,7 @@ export default function Layout({ children }) {
                         style={{ animationDelay: "300ms" }}
                     >
                         <button className="bg-white text-black font-poppins font-bold text-[14px] md:text-[16px] rounded-[20px] py-2 px-4 md:hover:bg-gray-200 transition-colors">
-                            Demo
+                            Simulate
                         </button>
                     </Link>
                 </div>

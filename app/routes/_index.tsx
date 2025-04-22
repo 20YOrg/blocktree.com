@@ -430,7 +430,7 @@ export default function Index() {
                         </a>
                     </div>
                     {/* Right Side: Image */}
-                    <div className="flex-1 min-h-[300px] md:min-h-[350px] relative w-full">
+                    <div className="flex-1 min-h-[300px] md:min-h-[460px] relative w-full">
                         <img
                             src="/cta-background.png"
                             alt="Call to Action Background"

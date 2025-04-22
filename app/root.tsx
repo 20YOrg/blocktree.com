@@ -6,7 +6,7 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
-import CustomLayout from "~/components/Layout"; // 假设已解决导入问题
+import CustomLayout from "~/components/Layout";
 import "./tailwind.css";
 
 export const links: LinksFunction = () => [
@@ -30,6 +30,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
+        <link rel="icon" type="image/x-icon" href="/blocktree-favicon.ico" />
+        <link rel="apple-touch-icon" href="/blocktree-apple-touch-icon.png" />
       </head>
       <body>
         {children}
