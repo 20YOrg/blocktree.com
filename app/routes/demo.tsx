@@ -47,19 +47,19 @@ export default function Demo() {
     useEffect(() => {
         setIsMounted(true);
 
-        // 检测屏幕尺寸
+        // Detect screen size
         const checkScreenSize = () => {
-            // 假设M屏幕的断点是768px
+            // Assume medium screen breakpoint is 768px
             setIsMediumScreen(window.innerWidth < 768);
         };
 
-        // 初始检查
+        // Initial check
         checkScreenSize();
 
-        // 添加事件监听
+        // Add event listener
         window.addEventListener('resize', checkScreenSize);
 
-        // 清理事件监听
+        // Clean up event listener
         return () => window.removeEventListener('resize', checkScreenSize);
     }, []);
 
@@ -257,7 +257,7 @@ export default function Demo() {
         setZoom(zoom);
     };
 
-    // 标题样式
+    // Title style
     const titleStyle = {
         color: '#FFF',
         fontFamily: 'Poppins',
@@ -267,7 +267,7 @@ export default function Demo() {
         lineHeight: 'normal'
     };
 
-    // 描述样式
+    // Description style
     const descriptionStyle = {
         marginTop: '4px',
         color: '#FFF',
@@ -278,7 +278,7 @@ export default function Demo() {
         lineHeight: 'normal'
     };
 
-    // 挖矿历史标题样式
+    // Mining history title style
     const miningHistoryTitleStyle = {
         color: '#FFF',
         fontFamily: 'Poppins',
@@ -288,7 +288,7 @@ export default function Demo() {
         lineHeight: 'normal'
     };
 
-    // 表格文字样式
+    // Table text style
     const tableTextStyle = {
         color: '#FFF',
         fontFamily: 'Poppins',
@@ -296,6 +296,24 @@ export default function Demo() {
         fontStyle: 'normal',
         fontWeight: 500,
         lineHeight: 'normal'
+    };
+
+    // Custom link rendering to ensure white lines
+    const renderCustomLinkElement = ({ linkDatum }) => {
+        const isHighlighted =
+            highlightedBranch &&
+            (linkDatum.source.name.startsWith(highlightedBranch[0]) ||
+                linkDatum.target.name.startsWith(highlightedBranch[0]));
+        return (
+            <path
+                d={linkDatum.path}
+                stroke="#FFFFFF"
+                strokeWidth={isHighlighted ? 4 : 2}
+                strokeOpacity={1}
+                fill="none"
+                style={{ stroke: '#FFFFFF', strokeOpacity: 1 }}
+            />
+        );
     };
 
     if (!isMounted) {
@@ -495,6 +513,14 @@ export default function Demo() {
                     className="rounded-lg shadow-md relative bg-[#2C2C2C] bg-opacity-60 backdrop-blur-[10px] border border-[#3B3B3B]"
                     style={{ height: "300px" }}
                 >
+                    <style>
+                        {`
+              .rd3t-link {
+                stroke: white !important;
+                stroke-opacity: 1 !important;
+              }
+            `}
+                    </style>
                     <Tree
                         ref={treeRef}
                         data={treeData()}
@@ -506,27 +532,11 @@ export default function Demo() {
                         transitionDuration={500}
                         onNodeClick={handleNodeClick}
                         onUpdate={handleTreeUpdate}
+                        renderCustomLinkElement={renderCustomLinkElement}
                         styles={{
                             nodes: {
                                 node: { shape: "rect" },
                                 leafNode: { shape: "rect" },
-                            },
-                            links: {
-                                stroke: "#D1D5DB",
-                                strokeWidth: (d) =>
-                                    highlightedBranch &&
-                                        (d.source.name.startsWith(highlightedBranch[0]) ||
-                                            d.target.name.startsWith(highlightedBranch[0]))
-                                        ? 4
-                                        : 2,
-                                strokeDasharray: (d) =>
-                                    highlightedBranch &&
-                                        !(
-                                            d.source.name.startsWith(highlightedBranch[0]) ||
-                                            d.target.name.startsWith(highlightedBranch[0])
-                                        )
-                                        ? "5,5"
-                                        : "none",
                             },
                         }}
                         renderCustomNodeElement={({ nodeDatum, toggleNode }) => (
