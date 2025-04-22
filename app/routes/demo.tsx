@@ -539,120 +539,122 @@ export default function Demo() {
                                 leafNode: { shape: "rect" },
                             },
                         }}
-                        renderCustomNodeElement={({ nodeDatum, toggleNode }) => (
-                            <g>
-                                <defs>
-                                    <linearGradient id="mainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" style={{ stopColor: "#6B7280", stopOpacity: 1 }} />
-                                        <stop offset="100%" style={{ stopColor: "#9CA3AF", stopOpacity: 1 }} />
-                                    </linearGradient>
-                                    <linearGradient id="earthGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" style={{ stopColor: "#10B981", stopOpacity: 1 }} />
-                                        <stop offset="100%" style={{ stopColor: "#059669", stopOpacity: 1 }} />
-                                    </linearGradient>
-                                    <linearGradient id="marsGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" style={{ stopColor: "#F87171", stopOpacity: 1 }} />
-                                        <stop offset="100%" style={{ stopColor: "#EF4444", stopOpacity: 1 }} />
-                                    </linearGradient>
-                                    <linearGradient id="earth1Gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" style={{ stopColor: "#3B82F6", stopOpacity: 1 }} />
-                                        <stop offset="100%" style={{ stopColor: "#2563EB", stopOpacity: 1 }} />
-                                    </linearGradient>
-                                    <linearGradient id="venusGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" style={{ stopColor: "#F59E0B", stopOpacity: 1 }} />
-                                        <stop offset="100%" style={{ stopColor: "#D97706", stopOpacity: 1 }} />
-                                    </linearGradient>
-                                    <linearGradient id="mars1Gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" style={{ stopColor: "#8B5CF6", stopOpacity: 1 }} />
-                                        <stop offset="100%" style={{ stopColor: "#7C3AED", stopOpacity: 1 }} />
-                                    </linearGradient>
-                                    <linearGradient id="europaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" style={{ stopColor: "#EC4899", stopOpacity: 1 }} />
-                                        <stop offset="100%" style={{ stopColor: "#DB2777", stopOpacity: 1 }} />
-                                    </linearGradient>
-                                </defs>
-                                <rect
-                                    width={24}
-                                    height={24}
-                                    x={-12}
-                                    y={-12}
-                                    fill={
-                                        nodeDatum.name === newNode
-                                            ? "#ffd700"
-                                            : nodeDatum.name.startsWith("R")
-                                                ? "url(#mainGradient)"
-                                                : nodeDatum.name.startsWith("E1")
-                                                    ? "url(#earth1Gradient)"
-                                                    : nodeDatum.name.startsWith("E")
-                                                        ? "url(#earthGradient)"
-                                                        : nodeDatum.name.startsWith("M1")
-                                                            ? "url(#mars1Gradient)"
-                                                            : nodeDatum.name.startsWith("M")
-                                                                ? "url(#marsGradient)"
-                                                                : nodeDatum.name.startsWith("V")
-                                                                    ? "url(#venusGradient)"
-                                                                    : nodeDatum.name.startsWith("Eu")
-                                                                        ? "url(#europaGradient)"
-                                                                        : "url(#mainGradient)"
-                                    }
-                                    stroke={
-                                        nodeDatum.name === newNode
-                                            ? "#ffd700"
-                                            : nodeDatum.name.startsWith("R")
-                                                ? "#9CA3AF"
-                                                : nodeDatum.name.startsWith("E1")
-                                                    ? "#2563EB"
-                                                    : nodeDatum.name.startsWith("E")
+                        renderCustomNodeElement={({ nodeDatum, toggleNode }) => {
+                            // Debug log to verify Europa nodes
+                            if (nodeDatum.name.startsWith("Eu")) {
+                                console.log("Europa node detected:", nodeDatum.name);
+                            }
+                            return (
+                                <g>
+                                    <defs>
+                                        <linearGradient id="mainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" style={{ stopColor: "#10B981", stopOpacity: 1 }} />
+                                            <stop offset="100%" style={{ stopColor: "#059669", stopOpacity: 1 }} />
+                                        </linearGradient>
+                                        <linearGradient id="earthGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" style={{ stopColor: "#10B981", stopOpacity: 1 }} />
+                                            <stop offset="100%" style={{ stopColor: "#059669", stopOpacity: 1 }} />
+                                        </linearGradient>
+                                        <linearGradient id="marsGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" style={{ stopColor: "#F87171", stopOpacity: 1 }} />
+                                            <stop offset="100%" style={{ stopColor: "#EF4444", stopOpacity: 1 }} />
+                                        </linearGradient>
+                                        <linearGradient id="earth1Gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" style={{ stopColor: "#10B981", stopOpacity: 1 }} />
+                                            <stop offset="100%" style={{ stopColor: "#059669", stopOpacity: 1 }} />
+                                        </linearGradient>
+                                        <linearGradient id="venusGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" style={{ stopColor: "#F59E0B", stopOpacity: 1 }} />
+                                            <stop offset="100%" style={{ stopColor: "#D97706", stopOpacity: 1 }} />
+                                        </linearGradient>
+                                        <linearGradient id="mars1Gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" style={{ stopColor: "#F87171", stopOpacity: 1 }} />
+                                            <stop offset="100%" style={{ stopColor: "#EF4444", stopOpacity: 1 }} />
+                                        </linearGradient>
+                                    </defs>
+                                    <rect
+                                        width={24}
+                                        height={24}
+                                        x={-12}
+                                        y={-12}
+                                        fill={
+                                            nodeDatum.name === newNode
+                                                ? "#ffd700"
+                                                : nodeDatum.name.startsWith("R")
+                                                    ? "url(#mainGradient)"
+                                                    : nodeDatum.name.startsWith("E1")
+                                                        ? "url(#earth1Gradient)"
+                                                        : nodeDatum.name.startsWith("E")
+                                                            ? "url(#earthGradient)"
+                                                            : nodeDatum.name.startsWith("M1")
+                                                                ? "url(#mars1Gradient)"
+                                                                : nodeDatum.name.startsWith("M")
+                                                                    ? "url(#marsGradient)"
+                                                                    : nodeDatum.name.startsWith("V")
+                                                                        ? "url(#venusGradient)"
+                                                                        : nodeDatum.name.startsWith("Eu")
+                                                                            ? "#3B82F6" // Direct blue fill for Europa
+                                                                            : "url(#mainGradient)"
+                                        }
+                                        stroke={
+                                            nodeDatum.name === newNode
+                                                ? "#ffd700"
+                                                : nodeDatum.name.startsWith("R")
+                                                    ? "#059669"
+                                                    : nodeDatum.name.startsWith("E1")
                                                         ? "#059669"
-                                                        : nodeDatum.name.startsWith("M1")
-                                                            ? "#7C3AED"
-                                                            : nodeDatum.name.startsWith("M")
+                                                        : nodeDatum.name.startsWith("E")
+                                                            ? "#059669"
+                                                            : nodeDatum.name.startsWith("M1")
                                                                 ? "#EF4444"
-                                                                : nodeDatum.name.startsWith("V")
-                                                                    ? "#D97706"
-                                                                    : nodeDatum.name.startsWith("Eu")
-                                                                        ? "#DB2777"
-                                                                        : "#9CA3AF"
-                                    }
-                                    strokeWidth={2}
-                                    onClick={toggleNode}
-                                />
-                                <text
-                                    dx="0"
-                                    dy="30"
-                                    fill="#FFFFFF"
-                                    style={{ fill: '#FFFFFF', stroke: '#FFFFFF', strokeWidth: 0.1 }}
-                                    fontFamily="Poppins"
-                                    fontSize={isMediumScreen ? "14px" : "18px"}
-                                    fontWeight="100"
-                                    textAnchor="middle"
-                                >
-                                    {nodeDatum.name}
-                                </text>
-                                <title>{`${nodeDatum.attributes?.location} Block ${nodeDatum.attributes?.id
-                                    } - Hash: ${nodeDatum.attributes?.fullHash} (Mined: ${new Date(
-                                        nodeDatum.attributes?.timestamp
-                                    ).toLocaleTimeString()})`}</title>
-                            </g>
-                        )}
+                                                                : nodeDatum.name.startsWith("M")
+                                                                    ? "#EF4444"
+                                                                    : nodeDatum.name.startsWith("V")
+                                                                        ? "#D97706"
+                                                                        : nodeDatum.name.startsWith("Eu")
+                                                                            ? "#1E40AF" // Blue stroke for Europa
+                                                                            : "#059669"
+                                        }
+                                        strokeWidth={2}
+                                        onClick={toggleNode}
+                                    />
+                                    <text
+                                        dx="0"
+                                        dy="30"
+                                        fill="#FFFFFF"
+                                        style={{ fill: '#FFFFFF', stroke: '#FFFFFF', strokeWidth: 0.1 }}
+                                        fontFamily="Poppins"
+                                        fontSize={isMediumScreen ? "14px" : "18px"}
+                                        fontWeight="100"
+                                        textAnchor="middle"
+                                    >
+                                        {nodeDatum.name}
+                                    </text>
+                                    <title>{`${nodeDatum.attributes?.location} Block ${nodeDatum.attributes?.id
+                                        } - Hash: ${nodeDatum.attributes?.fullHash} (Mined: ${new Date(
+                                            nodeDatum.attributes?.timestamp
+                                        ).toLocaleTimeString()})`}</title>
+                                </g>
+                            );
+                        }}
                     />
                 </div>
                 <div className="mt-32 space-y-4">
-                    <h1 style={miningHistoryTitleStyle}>
-                        MINING HISTORY
-                    </h1>
+                    <h1 style={miningHistoryTitleStyle}>MINING HISTORY</h1>
 
                     {/* Header Row */}
-                    <div style={{
-                        borderRadius: '10px',
-                        border: '1px solid #3B3B3B',
-                        background: '#2C2C2C',
-                        boxShadow: '0px 4px 20px 0px rgba(96, 96, 96, 0.20)',
-                        height: '50px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        padding: isMediumScreen ? '0 10px' : '0 20px'
-                    }}>
+                    <div
+                        style={{
+                            borderRadius: '10px',
+                            border: '1px solid #3B3B3B',
+                            background: '#2C2C2C',
+                            boxShadow: '0px 4px 20px 0px rgba(96, 96, 96, 0.20)',
+                            height: '50px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            padding: isMediumScreen ? '0 10px' : '0 20px',
+                        }}
+                    >
                         <div style={{ flex: 1, ...tableTextStyle, textAlign: 'left' }}>
                             Branch Name
                         </div>
@@ -675,60 +677,83 @@ export default function Demo() {
                         { name: 'Earth1 Branch', blocks: earth1Branch },
                         { name: 'Venus Branch', blocks: venusBranch },
                         { name: 'Mars1 Branch', blocks: mars1Branch },
-                        { name: 'Europa Branch', blocks: europaBranch }
+                        { name: 'Europa Branch', blocks: europaBranch },
                     ]
-                        .filter(branch => branch.blocks.length > 0)
+                        .filter((branch) => branch.blocks.length > 0)
                         .map((branch, index) => (
-                            <div key={index} style={{
-                                borderRadius: '10px',
-                                border: '1px solid #3B3B3B',
-                                background: '#2C2C2C',
-                                boxShadow: '0px 4px 20px 0px rgba(96, 96, 96, 0.20)',
-                                minHeight: '50px',
-                                display: 'flex',
-                                padding: isMediumScreen ? '0 10px' : '0 20px',
-                                marginBottom: '10px',
-                                position: 'relative'
-                            }}>
-                                <div style={{
-                                    flex: 1,
+                            <div
+                                key={index}
+                                style={{
+                                    borderRadius: '10px',
+                                    border: '1px solid #3B3B3B',
+                                    background: '#2C2C2C',
+                                    boxShadow: '0px 4px 20px 0px rgba(96, 96, 96, 0.20)',
+                                    minHeight: '50px',
                                     display: 'flex',
-                                    alignItems: 'center',
+                                    padding: isMediumScreen ? '0 10px' : '0 20px',
+                                    marginBottom: '10px',
                                     position: 'relative',
-                                    ...tableTextStyle,
-                                    textAlign: 'left'
-                                }}>
+                                }}
+                            >
+                                <div
+                                    style={{
+                                        flex: 1,
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        position: 'relative',
+                                        ...tableTextStyle,
+                                        textAlign: 'left',
+                                    }}
+                                >
                                     {branch.name}
-                                    <div style={{
-                                        position: 'absolute',
-                                        left: '95%',
-                                        top: 0,
-                                        bottom: 0,
-                                        width: '1px',
-                                        background: '#565656'
-                                    }}></div>
+                                    <div
+                                        style={{
+                                            position: 'absolute',
+                                            left: '95%',
+                                            top: 0,
+                                            bottom: 0,
+                                            width: '1px',
+                                            background: '#565656',
+                                        }}
+                                    ></div>
                                 </div>
-                                <div style={{ flex: 3, display: 'flex', flexDirection: 'column', position: 'relative' }}>
+                                <div
+                                    style={{
+                                        flex: 3,
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        position: 'relative',
+                                    }}
+                                >
                                     {branch.blocks.map((b, blockIndex) => (
-                                        <div key={b.id} style={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            height: '50px',
-                                            position: 'relative',
-                                            ...tableTextStyle
-                                        }}>
-                                            <div style={{ flex: 1, textAlign: 'right' }}>{b.location} Block {b.id}</div>
+                                        <div
+                                            key={b.id}
+                                            style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                height: '50px',
+                                                position: 'relative',
+                                                ...tableTextStyle,
+                                            }}
+                                        >
+                                            <div style={{ flex: 1, textAlign: 'right' }}>
+                                                {b.location} Block {b.id}
+                                            </div>
                                             <div style={{ flex: 1, textAlign: 'right' }}>{b.hash}</div>
-                                            <div style={{ flex: 1, textAlign: 'right' }}>{new Date(b.timestamp).toLocaleTimeString()}</div>
+                                            <div style={{ flex: 1, textAlign: 'right' }}>
+                                                {new Date(b.timestamp).toLocaleTimeString()}
+                                            </div>
                                             {blockIndex < branch.blocks.length - 1 && (
-                                                <div style={{
-                                                    position: 'absolute',
-                                                    left: '-1.5%',
-                                                    right: isMediumScreen ? '-10px' : '-20px',
-                                                    bottom: 0,
-                                                    height: '1px',
-                                                    background: '#565656'
-                                                }}></div>
+                                                <div
+                                                    style={{
+                                                        position: 'absolute',
+                                                        left: '-1.5%',
+                                                        right: isMediumScreen ? '-10px' : '-20px',
+                                                        bottom: 0,
+                                                        height: '1px',
+                                                        background: '#565656',
+                                                    }}
+                                                ></div>
                                             )}
                                         </div>
                                     ))}
