@@ -510,7 +510,7 @@ export default function Demo() {
                     )}
                 </div>
                 <div
-                    className="rounded-lg shadow-md relative bg-[#2C2C2C] bg-opacity-60 backdrop-blur-[10px] border border-[#3B3B3B]"
+                    className="rounded-lg shadow-md relative bg-[#2C2C2C] bg-opacity-60 backdrop-blur-[3px] border border-[#3B3B3B]"
                     style={{ height: "300px" }}
                 >
                     <style>
@@ -644,16 +644,16 @@ export default function Demo() {
 
                     {/* Header Row */}
                     <div
-                        style={{
-                            borderRadius: '10px',
-                            border: '1px solid #3B3B3B',
-                            background: '#2C2C2C',
-                            boxShadow: '0px 4px 20px 0px rgba(96, 96, 96, 0.20)',
-                            height: '50px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            padding: isMediumScreen ? '0 10px' : '0 20px',
-                        }}
+                    className="backdrop-blur-[3px] bg-[#2C2C2C] bg-opacity-60"
+                    style={{
+                        borderRadius: '10px',
+                        border: '1px solid #3B3B3B',
+                        boxShadow: '0px 4px 20px 0px rgba(96, 96, 96, 0.20)',
+                        height: '50px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        padding: isMediumScreen ? '0 10px' : '0 20px',
+                    }}
                     >
                         <div style={{ flex: 1, ...tableTextStyle, textAlign: 'left' }}>
                             Branch Name
@@ -682,18 +682,18 @@ export default function Demo() {
                         .filter((branch) => branch.blocks.length > 0)
                         .map((branch, index) => (
                             <div
-                                key={index}
-                                style={{
-                                    borderRadius: '10px',
-                                    border: '1px solid #3B3B3B',
-                                    background: '#2C2C2C',
-                                    boxShadow: '0px 4px 20px 0px rgba(96, 96, 96, 0.20)',
-                                    minHeight: '50px',
-                                    display: 'flex',
-                                    padding: isMediumScreen ? '0 10px' : '0 20px',
-                                    marginBottom: '10px',
-                                    position: 'relative',
-                                }}
+                            key={index}
+                            className="backdrop-blur-[3px] bg-[#2C2C2C] bg-opacity-60"
+                            style={{
+                                borderRadius: '10px',
+                                border: '1px solid #3B3B3B',
+                                boxShadow: '0px 4px 20px 0px rgba(96, 96, 96, 0.20)',
+                                minHeight: '50px',
+                                display: 'flex',
+                                padding: isMediumScreen ? '0 10px' : '0 20px',
+                                marginBottom: '10px',
+                                position: 'relative',
+                            }}
                             >
                                 <div
                                     style={{

@@ -14,85 +14,70 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-    // Create refs for the elements we need to control
     const useCasesSectionRef = useRef<HTMLElement>(null);
     const useCasesBackgroundRef = useRef<HTMLDivElement>(null);
     const useCasesContentRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        // Get references to the DOM elements
         const section = useCasesSectionRef.current;
         const background = useCasesBackgroundRef.current;
         const content = useCasesContentRef.current;
 
         if (!section || !background || !content) return;
 
-        // Track whether the background is currently fixed
         let isBackgroundFixed = false;
 
         const handleScroll = () => {
-            // Get the current positions
             const sectionRect = section.getBoundingClientRect();
             const contentRect = content.getBoundingClientRect();
 
-            // When the section enters the viewport but content hasn't reached top
             if (sectionRect.top <= 0 && contentRect.top > 0) {
                 if (!isBackgroundFixed) {
-                    // Fix the background in place
                     background.style.position = 'fixed';
                     background.style.top = '0';
                     background.style.left = '0';
                     background.style.width = '100%';
                     background.style.height = '100vh';
+                    background.style.zIndex = '-1'; 
                     isBackgroundFixed = true;
                 }
-            }
-            // When content hits the top of the viewport
-            else if (contentRect.top <= 0) {
-                // Make the background move with the content without "jumping"
-                // Calculate how far we've scrolled past the content top point
+            } else if (contentRect.top <= 0) {
                 const scrollPastContentTop = -contentRect.top;
-
                 background.style.position = 'fixed';
-                background.style.top = `-${scrollPastContentTop}px`; // Move background up as we scroll
+                background.style.top = `-${scrollPastContentTop}px`;
                 background.style.left = '0';
                 background.style.width = '100%';
                 background.style.height = '100vh';
+                background.style.zIndex = '-1';
                 isBackgroundFixed = true;
-            }
-            // Section is below viewport
-            else if (sectionRect.top > 0) {
+            } else if (sectionRect.top > 0) {
                 if (isBackgroundFixed) {
-                    // Reset to normal flow
                     background.style.position = 'absolute';
                     background.style.top = '0';
                     background.style.left = '0';
                     background.style.width = '100%';
                     background.style.height = '100vh';
+                    background.style.zIndex = '-1'; 
                     isBackgroundFixed = false;
                 }
             }
 
-            // Handle case where section scrolls completely out of view
             if (sectionRect.bottom <= 0) {
                 if (isBackgroundFixed) {
-                    // Make the background position absolute at the bottom of the section
                     background.style.position = 'absolute';
                     background.style.top = `${Math.max(0, sectionRect.height - window.innerHeight)}px`;
                     background.style.left = '0';
                     background.style.width = '100%';
                     background.style.height = '100vh';
+                    background.style.zIndex = '-1';
                     isBackgroundFixed = false;
                 }
             }
         };
 
-        // Add scroll event listener
         window.addEventListener('scroll', handleScroll);
-        // Initial call to set correct state
         handleScroll();
 
-        // Cleanup
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
@@ -252,7 +237,7 @@ export default function Index() {
             {/* Use Cases Section - Modified with refs and background handling */}
             <section
                 ref={useCasesSectionRef}
-                className="relative min-h-[1100px] mb-16 md:mb-48 lg:mb-80 pt-16 pb-8"
+                className="relative min-h-[1100px] mb-64 md:mb-80 lg:mb-96 pt-16 pb-8"
                 style={{ zIndex: 0 }}
             >
                 {/* Background Element */}
@@ -261,7 +246,7 @@ export default function Index() {
                     className="absolute top-0 left-0 w-full h-screen bg-cover bg-center"
                     style={{
                         backgroundImage: "url('/use-cases-background.png')",
-                        zIndex: 1
+                        zIndex: -1,
                     }}
                 />
 
@@ -406,39 +391,42 @@ export default function Index() {
             </section>
 
             {/* Call to Action Section */}
-            <section className="text-center mb-32 max-w-7xl mx-auto px-4 md:px-12">
-                <div className="flex flex-col md:flex-row items-center bg-[#3B3B3B] rounded-[10px] overflow-hidden">
-                    {/* Left Side: Text and Button */}
-                    <div className="flex-1 p-8 text-left">
-                        <h2
-                            className="text-[1.375rem] md:text-[26px] font-thin text-[#FFFFFF] font-poppins mb-6 md:mb-[48px]"
-                            style={{ letterSpacing: "1.3px", lineHeight: "39px" }}
-                        >
-                            BUILD THE COSMIC FUTURE WITH BLOCKTREE
-                        </h2>
-                        <p
-                            className="text-[0.875rem] md:text-[16px] font-semibold text-[#FFFFFF] font-poppins mb-6 md:mb-[48px]"
-                            style={{ letterSpacing: "0.8px", lineHeight: "24px" }}
-                        >
-                            Join our open-source community to shape a scalable blockchain for AI, edge computing, and space. Collaborate on GitHub or contact us to innovate across Earth and Mars.
-                        </p>
-                        <a
-                            href="mailto:contact@blocktree.com"
-                            className="inline-block bg-white text-black font-bold font-poppins text-[16px] rounded-[20px] py-2 px-4 transition-colors"
-                        >
-                            Message Us
-                        </a>
-                    </div>
-                    {/* Right Side: Image */}
-                    <div className="flex-1 min-h-[300px] md:min-h-[460px] relative w-full">
-                        <img
-                            src="/cta-background.png"
-                            alt="Call to Action Background"
-                            className="absolute inset-0 w-full h-full object-cover"
-                            onError={() => console.error("Failed to load cta-background.png")}
-                        />
-                    </div>
+            <section
+              className="text-center mb-32 max-w-7xl mx-auto px-4 md:px-12 relative mt-[-400px] md:mt-[-200px]"
+              style={{ zIndex: 5 }}
+            >
+              <div className="flex flex-col md:flex-row rounded-[10px] overflow-hidden bg-transparent">
+                {/* Left Side: Text and Button */}
+                <div className="flex-1 p-8 text-left flex flex-col justify-center bg-[#3B3B3B] bg-opacity-50 backdrop-blur-[10px] min-h-[300px] md:min-h-[350px]">
+                  <h2
+                    className="text-[1.375rem] md:text-[26px] font-thin text-[#FFFFFF] font-poppins mb-6 md:mb-[32px] md:mt-[16px]"
+                    style={{ letterSpacing: "1.3px", lineHeight: "39px" }}
+                  >
+                    BUILD THE COSMIC FUTURE WITH BLOCKTREE
+                  </h2>
+                  <p
+                    className="text-[0.875rem] md:text-[16px] font-semibold text-[#FFFFFF] font-poppins mb-6 md:mb-[32px]"
+                    style={{ letterSpacing: "0.8px", lineHeight: "24px" }}
+                  >
+                    Join our open-source community to shape a scalable blockchain for AI, edge computing, and space. Collaborate on GitHub or contact us to innovate across Earth and Mars.
+                  </p>
+                  <a
+                    href="mailto:contact@blocktree.com"
+                    className="inline-block bg-white text-black font-bold font-poppins text-[16px] rounded-[20px] py-2 px-4 transition-colors md:mb-[16px] self-start"
+                  >
+                    Message Us
+                  </a>
                 </div>
+                {/* Right Side: Image */}
+                <div className="flex-1 w-full min-h-[200px] md:min-h-[350px] bg-[#3B3B3B] bg-opacity-50 backdrop-blur-[10px]">
+                  <img
+                    src="/cta-background.png"
+                    alt="Call to Action Background"
+                    className="w-full h-full object-cover"
+                    onError={() => console.error("Failed to load cta-background.png")}
+                  />
+                </div>
+              </div>
             </section>
         </>
     );
