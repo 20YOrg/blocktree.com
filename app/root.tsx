@@ -31,7 +31,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
         <link rel="icon" type="image/x-icon" href="/blocktree-favicon.ico" />
-        <link rel="apple-touch-icon" href="/blocktree-apple-touch-icon.png" />
+        <link rel="apple-touch-icon" href="/blocktree-apple-touch-icon.png?v=2" />
       </head>
       <body>
         {children}
