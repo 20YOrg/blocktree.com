@@ -65,7 +65,7 @@ export default function Layout({ children }) {
                     </div>
                     <div className="hidden md:flex items-center gap-8">
                         <a
-                            href="https://github.com/unit-index"
+                            href="https://github.com/20YOrg"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center gap-2 text-[#FFFFFF] font-poppins font-light text-[16px] hover:text-blue-500 transition-colors"
@@ -160,7 +160,7 @@ export default function Layout({ children }) {
                         }`}
                 >
                     <a
-                        href="https://github.com/unit-index"
+                        href="https://github.com/20YOrg"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-2 text-[#FFFFFF] font-poppins font-medium md:font-light text-[14px] md:text-[16px] md:hover:text-blue-500 transition-colors animate-fadeIn"
@@ -257,7 +257,7 @@ export default function Layout({ children }) {
                     </div>
                     <div className="flex gap-2 mt-4 md:mt-0">
                         <a
-                            href="https://github.com/unit-index"
+                            href="https://github.com/20YOrg"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="bg-[#3B3B3B] rounded-[5px] p-[5px]"
